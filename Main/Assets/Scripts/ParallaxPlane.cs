@@ -7,32 +7,24 @@ public class ParallaxPlane : MonoBehaviour {
 	public Camera camera;
 	
 	private float cameraXBase;
-	private float[] uBase;
+	private float cameraYBase;
+	private float cameraZBase;
 	
 	void Start() {
 		cameraXBase = camera.transform.position.x;
-		
-		Mesh mesh = GetComponent<MeshFilter>().mesh;
-		uBase = new float[mesh.uv.Length];
-		for (int i = 0; i < mesh.uv.Length; i++) {
-			uBase[i] = mesh.uv[i].x;
-		}
+		cameraYBase = camera.transform.position.y;
+		cameraZBase = camera.transform.position.z;
 	}
 	
 	void Update () {
-		float uDelta = computeUDelta ();
-		Mesh mesh = GetComponent<MeshFilter>().mesh;
-		Vector2[] uvs = new Vector2[mesh.uv.Length];
-		for (int i = 0; i < mesh.uv.Length; i++) {
-			uvs[i] = new Vector2(uBase[i] + uDelta, mesh.uv[i].y);
-		}
-		mesh.uv = uvs;
+		float xOffset = computeXOffset ();
+		Vector3 p = gameObject.transform.localPosition;
+		gameObject.transform.localPosition = new Vector3(xOffset, p.y, p.z);
 	}
 	
-	float computeUDelta() {
+	float computeXOffset() {
 		float cameraXDelta = (camera.transform.position.x - cameraXBase);
-		float nonzeroDepth = (depth == 0.0f) ? 0.01f : depth;
-		float uDelta = -(1.0f / nonzeroDepth) * cameraXDelta;
-		return uDelta;
+		float fixedDepth = (depth < 0.1f) ? 0.1f : depth;
+		return -cameraXDelta * (1.0f / fixedDepth - 1.0f);
 	}
 }
