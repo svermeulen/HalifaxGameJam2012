@@ -50,6 +50,7 @@
      <Compile Include="Assets\Libraries\SpriteManager\SpriteManager.cs" />
      <Compile Include="Assets\Scripts\AnimationHandler.cs" />
      <Compile Include="Assets\Scripts\Coyote.cs" />
+     <Compile Include="Assets\Scripts\Enemy1.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\dolphin_face\Scripts\AudioManager.cs" />
      <Compile Include="Assets\dolphin_face\Scripts\BombController.cs" />

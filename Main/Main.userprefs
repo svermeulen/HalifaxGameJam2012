@@ -1,8 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Coyote.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\AnimationHandler.cs">
     <Files>
       <File FileName="Assets\Scripts\Coyote.cs" Line="48" Column="1" />
+      <File FileName="Assets\Scripts\AnimationHandler.cs" Line="31" Column="2" />
+      <File FileName="Assets\Libraries\SpriteManager\LinkedSpriteManager.cs" Line="58" Column="2" />
+      <File FileName="Assets\Libraries\SpriteManager\SpriteManager.cs" Line="447" Column="34" />
+      <File FileName="Assets\Libraries\SpriteManager\Sprite.cs" Line="239" Column="56" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
