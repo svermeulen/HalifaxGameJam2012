@@ -31,6 +31,8 @@ public class AnimationHandler : MonoBehaviour
 
     void Start()
     {
+		spriteTransform.transform.position = transform.TransformPoint(spriteTransform.transform.position);
+		
         sprite = spriteManager.AddSprite(spriteTransform, width, height, 0, 127, 128, 128, false);
 
         for (var i = 0; i < anims.Length; i++)
@@ -45,6 +47,7 @@ public class AnimationHandler : MonoBehaviour
         }
 
         sprite.PlayAnim(defaultAnimation);
+		
     }
 
     public void ChangeAnim(String anim)
