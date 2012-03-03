@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+	<ProductVersion>10.0.20506</ProductVersion>
+	<SchemaVersion>2.0</SchemaVersion>
+	<ProjectGuid>{DD8BB905-17D1-AAA6-C8A2-213488C298D6}</ProjectGuid>
+	<OutputType>Library</OutputType>
+	<AppDesignerFolder>Properties</AppDesignerFolder>
+	<RootNamespace></RootNamespace>
+	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+	<FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+	<DebugSymbols>true</DebugSymbols>
+	<DebugType>full</DebugType>
+	<Optimize>false</Optimize>
+	<OutputPath>Temp\bin\Debug\</OutputPath>
+	<DefineConstants>DEBUG;TRACE;UNITY_3_5_0;UNITY_3_5;UNITY_EDITOR;ENABLE_PROFILER;UNITY_WEBPLAYER;ENABLE_GENERICS;ENABLE_DUCK_TYPING;ENABLE_TERRAIN;ENABLE_MOVIES;ENABLE_WEBCAM;ENABLE_MICROPHONE;ENABLE_NETWORK;ENABLE_CLOTH;ENABLE_WWW;ENABLE_SUBSTANCE</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+	<DebugType>pdbonly</DebugType>
+	<Optimize>true</Optimize>
+	<OutputPath>Temp\bin\Release\</OutputPath>
+	<DefineConstants>TRACE</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+	<Reference Include="System" />
+    <Reference Include="System.XML" />
+	<Reference Include="System.Core" />
+	<Reference Include="UnityEngine">
+	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	</Reference>
+	<Reference Include="UnityEditor">
+	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	</Reference>
+  </ItemGroup>
+  <ItemGroup>
+     <Compile Include="Assets\Libraries\SpriteManager\LinkedSpriteManager.cs" />
+     <Compile Include="Assets\Libraries\SpriteManager\Sprite.cs" />
+     <Compile Include="Assets\Libraries\SpriteManager\SpriteClientDemo.cs" />
+     <Compile Include="Assets\Libraries\SpriteManager\SpriteManager.cs" />
+     <Compile Include="Assets\Scripts\AnimationHandler.cs" />
+     <Compile Include="Assets\Scripts\Coyote.cs" />
+     <Compile Include="Assets\Scripts\Player.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\AudioManager.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\BombController.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\BubbleBurstController.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\BubbleFishController.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\CameraController.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\ClamHortonsBitsController.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\ClamHortonsCoffeeController.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\CreateObjects.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\DamagePlayer.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\DiverControllerBase.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\DiverControllerGreen.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\DiverControllerRed.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\DiverControllerYellow.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\DolphinController.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\DolphinPathCreator.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\DrawEditorBounds.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\DrawLine.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\Events\Callback.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\Events\Messenger.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\GameStartMenuScript.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\GameState.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\HUDScript.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\Interpolate.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\JellyfishController.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\MineController.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\MusicManager.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\PopUpMenuScript.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\PuffyController.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\RockController.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\SimpleFollow.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\SpearController.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\SplineCamera\MathUtils.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\SplineCamera\SplineController.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\SplineCamera\SplineInterpolator.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\StarmahnController.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\Util\Debugging.cs" />
+     <Compile Include="Assets\dolphin_face\Scripts\Util\Util.cs" />
+     <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
+ <Reference Include="Assembly-UnityScript-firstpass">
+ <HintPath>Library\ScriptAssemblies\Assembly-UnityScript-firstpass.dll</HintPath>
+ </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+	   Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  
+</Project>
