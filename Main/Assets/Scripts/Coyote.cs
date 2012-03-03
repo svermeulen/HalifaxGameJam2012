@@ -10,9 +10,12 @@ public class Coyote : MonoBehaviour
 
     enum State
     {
-        Idle,
-        Moving,
-        Attacking
+        IdleRight,
+        MovingRight,
+        AttackingRight,
+        IdleLeft,
+        MovingLeft,
+        AttackingLeft
     }
 
     private State state;
@@ -20,74 +23,132 @@ public class Coyote : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-	    state = State.Idle;
+	    state = State.IdleRight;
 	    animHandler = GetComponent<AnimationHandler>();
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
+		StateCommon();
 	    switch (state)
 	    {
-	        case State.Idle:
-	            IdleState();
+	        case State.IdleLeft:
+	            Idle();
+                break;
+			
+	        case State.IdleRight:
+	            Idle();
                 break;
 
-            case State.Moving:
-                MovingState();
+            case State.MovingRight:
+                MovingRightState();
                 break;
 
-	        case State.Attacking:
-	            AttackingState();
+            case State.MovingLeft:
+                MovingLeftState();
+                break;
+
+	        case State.AttackingLeft:
+	            AttackingLeftState();
+                break;
+
+	        case State.AttackingRight:
+	            AttackingRightState();
                 break;
 
 	        default:
 	            throw new ArgumentOutOfRangeException();
 	    }
     }
+	
+	bool IsLookingRight()
+	{
+		return state == State.AttackingRight || state == State.IdleRight || state == State.MovingRight;
+	}
+	
+	void StateCommon()
+	{
+		/*
+        if (Math.Abs(Input.GetAxis("Fire1")) > 0.01f)
+        {
+			if (IsLookingRight())
+			{
+	            state = State.AttackingRight;
+	            animHandler.ChangeAnim("AttackRight", delegate()
+	            {
+	                animHandler.ChangeAnim("IdleRight");
+	            });
+			}
+			else
+			{
+	            state = State.AttackingLeft;
+	            animHandler.ChangeAnim("AttackLeft", delegate()
+	            {
+	                state = State.Idle;
+	                animHandler.ChangeAnim("IdleRight");
+	            });
+			}
+        }*/
+	}
 
     void CheckForAttack()
     {
-        if (Math.Abs(Input.GetAxis("Fire1")) > 0.01f)
-        {
-            state = State.Attacking;
-            animHandler.ChangeAnim("Attack", delegate()
-            {
-                state = State.Idle;
-                animHandler.ChangeAnim("Idle");
-            });
-        }
     }
 
-    void IdleState()
+    void Idle()
     {
         var accel = Input.GetAxis("Horizontal");
-        if (Math.Abs(accel) > 0.001f)
+		
+        if (accel > 0.01f)
         {
-            state = State.Moving;
-            animHandler.ChangeAnim("Move");
-            return;
+            state = State.MovingRight;
+            animHandler.ChangeAnim("MoveRight");
         }
-
-        CheckForAttack();
+		else if (accel < -0.01f)
+		{
+            state = State.MovingLeft;
+            animHandler.ChangeAnim("MoveLeft");
+		}
+		else
+		{
+        	//CheckForAttack();
+		}
     }
 
-    void MovingState()
+    void MovingRightState()
     {
         var accel = Input.GetAxis("Horizontal");
         transform.position += new Vector3(accel, 0, 0) * moveSpeed;
 
         if (Math.Abs(accel) < 0.001f)
         {
-            animHandler.ChangeAnim("Idle");
-            state = State.Idle;
+            animHandler.ChangeAnim("IdleRight");
+            state = State.IdleRight;
             return;
         }
-
-        CheckForAttack();
+        
+        //CheckForAttack();
     }
 
-    void AttackingState()
+    void MovingLeftState()
+    {
+        var accel = Input.GetAxis("Horizontal");
+        transform.position += new Vector3(accel, 0, 0) * moveSpeed;
+
+        if (Math.Abs(accel) < 0.001f)
+        {
+            animHandler.ChangeAnim("IdleLeft");
+            state = State.IdleLeft;
+            return;
+        }
+	}
+
+    void AttackingRightState()
+    {
+	}
+
+    void AttackingLeftState()
     {
     }
 }

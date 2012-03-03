@@ -7,7 +7,6 @@ using System.Collections.Generic;
 public class AnimationInfo
 {
     public Vector2 firstFrame;
-    public Vector2 cellSize;
     public String name;
     public int rows;
     public int columns;
@@ -18,51 +17,62 @@ public class AnimationInfo
 
 public class AnimationHandler : MonoBehaviour
 {
-    public LinkedSpriteManager spriteManager;
-    public GameObject spriteTransform;
+    public LinkedSpriteManager _spriteManager;
+    public GameObject _spriteTransform;
+	
+    public float _width = 1.0f;
+    public float _height = 1.0f;
+    public String _defaultAnimation;
+    public Vector2 _cellSize;
 
-    public float width = 1.0f;
-    public float height = 1.0f;
-    public String defaultAnimation;
+    public AnimationInfo[] _anims;
 
-    public AnimationInfo[] anims;
-
-    Sprite sprite;
+    Sprite _sprite;
 
     void Start()
     {
-		spriteTransform.transform.position = transform.TransformPoint(spriteTransform.transform.position);
+		_spriteTransform.transform.position = transform.TransformPoint(_spriteTransform.transform.position);
 		
-        sprite = spriteManager.AddSprite(spriteTransform, width, height, 0, 127, 128, 128, false);
+        _sprite = _spriteManager.AddSprite(_spriteTransform, _width, _height, 0, 127, 128, 128, false);
 
-        for (var i = 0; i < anims.Length; i++)
-        {
+        for (var i = 0; i < _anims.Length; i++)
+        {			
             var anim = new UVAnimation();
-            var firstFrame = spriteManager.PixelCoordToUVCoord(anims[i].firstFrame);
-            var cellSize = spriteManager.PixelSpaceToUVSpace(anims[i].cellSize);
-            anim.BuildUVAnim(firstFrame, cellSize, anims[i].columns, anims[i].rows, anims[i].totalCells, anims[i].fps);
-            anim.name = anims[i].name;
-            anim.loopCycles = anims[i].loopCycles;
-            sprite.AddAnimation(anim);
+			
+			var firstFrameCoords = new Vector2(
+				_anims[i].firstFrame.x * _cellSize.x, 
+				_anims[i].firstFrame.y * _cellSize.y);
+			
+            var firstFrame = _spriteManager.PixelCoordToUVCoord(firstFrameCoords);
+            var cellSize = _spriteManager.PixelSpaceToUVSpace(_cellSize);
+            anim.BuildUVAnim(firstFrame, cellSize, _anims[i].columns, _anims[i].rows, _anims[i].totalCells, _anims[i].fps);
+            anim.name = _anims[i].name;
+            anim.loopCycles = _anims[i].loopCycles;
+            _sprite.AddAnimation(anim);
         }
 
-        sprite.PlayAnim(defaultAnimation);
+        _sprite.PlayAnim(_defaultAnimation);
 		
     }
-
+	
+	public void Flip()
+	{
+		
+	}
+	
     public void ChangeAnim(String anim)
     {
-        sprite.PlayAnim(anim);
+        _sprite.PlayAnim(anim);
     }
 
     public void ChangeAnim(String anim, Sprite.AnimCompleteDelegate callback)
     {
-        sprite.PlayAnim(anim);
-        sprite.SetAnimCompleteDelegate(callback);
+        _sprite.PlayAnim(anim);
+        _sprite.SetAnimCompleteDelegate(callback);
     }
 
     void OnDrawGizmos()
     {
-        Gizmos.DrawWireCube(transform.position, new Vector3(width/2, height/2, 0));
+        Gizmos.DrawWireCube(transform.position, new Vector3(_width/2, _height/2, 0));
     }
 }
