@@ -18,7 +18,9 @@ public class AnimationInfo
 public class AnimationHandler : MonoBehaviour
 {
     public LinkedSpriteManager _spriteManager;
-    public GameObject _spriteTransform;
+	
+	public float _scaleX = 1;
+	public float _scaleY = 1;
 	
     public float _width = 1.0f;
     public float _height = 1.0f;
@@ -31,9 +33,12 @@ public class AnimationHandler : MonoBehaviour
 
     void Start()
     {
-		_spriteTransform.transform.position = transform.TransformPoint(_spriteTransform.transform.position);
+		var transTest = new GameObject("MaterialTransform_"+ this.name);
 		
-        _sprite = _spriteManager.AddSprite(_spriteTransform, _width, _height, 0, (int)_cellSize.x-1, (int)_cellSize.x, (int)_cellSize.x, false);
+		transTest.transform.position = transform.TransformPoint(transTest.transform.position);
+		transTest.transform.localScale = new Vector3(_scaleX, _scaleY, 0.5f);
+	
+    	_sprite = _spriteManager.AddSprite(transTest, _width, _height, 0, (int)_cellSize.x-1, (int)_cellSize.x, (int)_cellSize.x, false);
 
         for (var i = 0; i < _anims.Length; i++)
         {			
@@ -54,11 +59,6 @@ public class AnimationHandler : MonoBehaviour
         _sprite.PlayAnim(_defaultAnimation);
 		
     }
-	
-	public void Flip()
-	{
-		
-	}
 	
     public void ChangeAnim(String anim)
     {

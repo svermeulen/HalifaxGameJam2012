@@ -9,26 +9,71 @@ public class Kid : MonoBehaviour
 
     private AnimationHandler animHandler;
 	private Coyote coyote;
+	
+    enum State
+    {
+        Idle,
+		Moving
+    }
 
+    private State state;
+	
 	// Use this for initialization
 	void Start ()
 	{
 	    animHandler = GetComponent<AnimationHandler>();
 		coyote = GameObject.FindWithTag("coyote").GetComponent<Coyote>();
+		
+		state = State.Moving;
+		animHandler.ChangeAnim("Move");
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
+	    switch (state)
+	    {
+	        case State.Idle:
+	            Idle();
+                break;
+			
+	        case State.Moving:
+	            Moving();
+                break;
+
+	        default:
+	            throw new ArgumentOutOfRangeException();
+	    }
+	}
+	
+	void Idle()
+	{
+		var deltaTarget = coyote.transform.position - transform.position;
+		var distance = deltaTarget.magnitude;
+		
+		if (distance > targetDistance && deltaTarget.x < 0)
+		{
+			state = State.Moving;
+			animHandler.ChangeAnim("Move");
+			return;
+		}
+	}
+	
+	void Moving()
+	{
 		var deltaTarget = coyote.transform.position - transform.position;
 		var distance = deltaTarget.magnitude;
 		
 		var direction = deltaTarget / distance;
 		direction.Normalize();
 		
-		if (distance > targetDistance)
+		if (distance <= targetDistance || deltaTarget.x >= 0)
 		{
-			transform.position += direction * moveSpeed;
+			state = State.Idle;
+			animHandler.ChangeAnim("Idle");
+			return;
 		}
+
+		transform.position += new Vector3(-1, 0, 0) * moveSpeed;
     }
 }
