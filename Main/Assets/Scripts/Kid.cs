@@ -92,4 +92,12 @@ public class Kid : MonoBehaviour
 			}
 		}
 	}
+	
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.name == "StalactPieces") { 
+			StalactPieces ctl = other.gameObject.GetComponent<StalactPieces>();
+			ctl.Fall();
+		}
+	}
 }
