@@ -90,6 +90,7 @@ public class Kid : MonoBehaviour
 	
 	public void TakeDamage(float damage)
 	{
+		Debug.Log ("take damage: " + damage);
 		if (state == State.Dead)
 		{
 			return;
@@ -127,7 +128,7 @@ public class Kid : MonoBehaviour
 	{
 		Debug.Log(other.gameObject.name);
 		if (other.gameObject.name == "StalactPiece") {
-			Debug.Log ("take damage");
+			TakeDamage (100);
 		}
 	}
 }
