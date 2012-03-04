@@ -90,6 +90,7 @@ public class Kid : MonoBehaviour
 	
 	public void TakeDamage(float damage)
 	{
+		Debug.Log ("take damage: " + damage);
 		if (state == State.Dead)
 		{
 			return;
@@ -112,6 +113,22 @@ public class Kid : MonoBehaviour
 					//guiObj.GetComponent<GuiHandler>().EnablePopup(GuiHandler.Popups.Death);
 		        });
 			}
+		}
+	}
+	
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.name == "StalactPieces") { 
+			StalactPieces ctl = other.gameObject.GetComponent<StalactPieces>();
+			ctl.Fall();
+		}
+	}
+	
+	void OnCollisionEnter(Collision other)
+	{
+		Debug.Log(other.gameObject.name);
+		if (other.gameObject.name == "StalactPiece") {
+			TakeDamage (100);
 		}
 	}
 }
