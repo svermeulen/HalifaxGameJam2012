@@ -5,6 +5,9 @@ using System.Collections;
 public class Coyote : MonoBehaviour
 {
     public float moveSpeed = 0.1f;
+	public float torqueSpring = 0.1f;
+	public float rotateFriction;
+	public float rotateSpring;
 
     private AnimationHandler animHandler;
 	
@@ -24,6 +27,8 @@ public class Coyote : MonoBehaviour
     private State state;
 	bool lookingRight = true;
 	Vector3 velocity;
+	bool isOnFloor = false;
+	public Vector3 desiredDirection = new Vector3(1, 0, 0);
 
 	// Use this for initialization
 	void Start ()
@@ -35,6 +40,11 @@ public class Coyote : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+		if (isOnFloor)
+		{
+			Debug.DrawLine(transform.position, transform.position + desiredDirection * 1);
+		}
+		
 		CommonUpdate();
 	    switch (state)
 	    {
@@ -61,8 +71,41 @@ public class Coyote : MonoBehaviour
 	
 	void CommonUpdate()
 	{
+		Debug.DrawLine(transform.position, transform.position + desiredDirection * 1);
+		
         transform.position += velocity * Time.deltaTime;
 		
+		var rigidBody = GetComponent<Rigidbody>();
+				
+		// Add friction to rotation
+		rigidBody.AddTorque(new Vector3(0, 0, - rigidBody.angularVelocity.z * rotateFriction));
+		
+		var desired = Mathf.Rad2Deg * Mathf.Atan2(desiredDirection.y, desiredDirection.x);
+		
+		var angles = rigidBody.rotation.eulerAngles;
+		
+		var current = angles.z;
+		
+		var diff = desired - current;
+		
+		if (Mathf.Abs(diff) > 180)
+		{
+			diff = desired + (360 - current);
+		}
+		
+		rigidBody.AddTorque(new Vector3(0, 0, diff) * rotateSpring);
+		
+		/*
+		//Vector3 dir = new Vector3(normalTest.y, -normalTest.x, normalTest.z);
+		var dir = new Vector3(0, 1, 0);
+		
+		var theta = Mathf.Atan2(dir.y, dir.x);
+		
+		var rigidBody = GetComponent<Rigidbody>();
+		var angles = rigidBody.rotation.eulerAngles;
+		
+		rigidBody.AddTorque(new Vector3(0, 0, theta-angles.z) * torqueSpring);
+		*/
 		/*
         if (Math.Abs(Input.GetAxis("Fire1")) > 0.01f)
         {
@@ -139,6 +182,32 @@ public class Coyote : MonoBehaviour
         }
     }
 	
+	void OnCollisionExit(Collision collision) 
+	{
+		isOnFloor = false;
+		desiredDirection = new Vector3(1, 0, 0);
+	}
+	
+	void OnCollisionStay(Collision collision) 
+	{
+		isOnFloor = true;
+		var count = 0;
+		var avgNormal = new Vector3();
+		
+		foreach (ContactPoint contact in collision.contacts) 
+		{
+			avgNormal += contact.normal;
+			count += 1;
+            //print(contact.thisCollider.name + " hit " + contact.otherCollider.name);
+            //Debug.DrawRay(contact.point, contact.normal * 5, Color.white);
+    	}
+		
+		avgNormal /= count;
+		avgNormal.Normalize();
+		
+		desiredDirection = new Vector3(avgNormal.y, -avgNormal.x, avgNormal.z);
+    }
+	
 	void TurnRight()
 	{
 		lookingRight = true;
@@ -167,7 +236,7 @@ public class Coyote : MonoBehaviour
 		
 		velocity += new Vector3(accel, 0, 0) * moveSpeed * Time.deltaTime;
 		var speed = velocity.magnitude;
-		
+				
 		if (speed > maxSpeed)
 		{
 			velocity = maxSpeed * velocity / speed;
