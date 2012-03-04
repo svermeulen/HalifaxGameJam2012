@@ -10,6 +10,8 @@ public class Kid : MonoBehaviour
     private AnimationHandler animHandler;
 	private Coyote coyote;
 	
+	float health = 100;
+	
     enum State
     {
         Idle,
@@ -25,7 +27,11 @@ public class Kid : MonoBehaviour
 		coyote = GameObject.FindWithTag("coyote").GetComponent<Coyote>();
 		
 		state = State.Moving;
-		animHandler.ChangeAnim("Move");
+	}
+	
+	void OnGUI()
+	{
+		GUI.Label( new Rect(10, 10, 100, 100), "Health: "+ health);
 	}
 	
 	// Update is called once per frame
@@ -76,4 +82,9 @@ public class Kid : MonoBehaviour
 
 		transform.position += new Vector3(-1, 0, 0) * moveSpeed;
     }
+	
+	public void TakeDamage(float damage)
+	{
+		health -= damage;
+	}
 }

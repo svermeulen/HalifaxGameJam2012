@@ -30,6 +30,7 @@ public class AnimationHandler : MonoBehaviour
     public AnimationInfo[] _anims;
 
     Sprite _sprite;
+	string _currentAnimation;
 
     void Start()
     {
@@ -55,18 +56,31 @@ public class AnimationHandler : MonoBehaviour
             anim.loopCycles = _anims[i].loopCycles;
             _sprite.AddAnimation(anim);
         }
-
+		
+		_currentAnimation = _defaultAnimation;
         _sprite.PlayAnim(_defaultAnimation);
 		
     }
 	
+	public string CurrentAnimation
+	{
+		get { return _currentAnimation; }
+	}
+	
     public void ChangeAnim(String anim)
     {
+		if (anim == _currentAnimation)
+		{
+			return;
+		}
+		
+		_currentAnimation = anim;
         _sprite.PlayAnim(anim);
     }
 
     public void ChangeAnim(String anim, Sprite.AnimCompleteDelegate callback)
     {
+		_currentAnimation = anim;
         _sprite.PlayAnim(anim);
         _sprite.SetAnimCompleteDelegate(callback);
     }

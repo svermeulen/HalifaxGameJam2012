@@ -10,25 +10,71 @@ public class Enemy : MonoBehaviour
     private AnimationHandler animHandler;
 	private Kid kid;
 
+    enum State
+    {
+        Moving,
+		Attacking
+    }
+	
+	State state;
+	
 	// Use this for initialization
 	void Start ()
 	{
 	    animHandler = GetComponent<AnimationHandler>();
 		kid = GameObject.FindWithTag("kid").GetComponent<Kid>();
+		
+		state = State.Moving;
 	}
-	
+		
 	// Update is called once per frame
 	void Update ()
     {
+	    switch (state)
+	    {
+	        case State.Moving:
+	            Moving();
+                break;
+			
+	        case State.Attacking:
+	            Attacking();
+                break;
+
+	        default:
+	            throw new ArgumentOutOfRangeException();
+	    }
+	}
+	
+	void Moving()
+	{
 		var deltaTarget = kid.transform.position - transform.position;
 		var distance = deltaTarget.magnitude;
+
+		if (deltaTarget.x < 0)
+		{
+			animHandler.ChangeAnim("MoveLeft");
+		}
+		else
+		{
+			animHandler.ChangeAnim("MoveRight");
+		}
 		
-		var direction = deltaTarget / distance;
+		if (distance <= targetDistance)
+		{
+			//state = State.Attacking;
+			//animHandler.ChangeAnim("AttackLeft");
+			return;
+		}
+		
+		var direction = deltaTarget;
+		direction.y = 0;
 		direction.Normalize();
 		
-		if (distance > targetDistance)
-		{
-			transform.position += direction * moveSpeed;
-		}
+		transform.position += direction * moveSpeed;
+    }
+	
+	void Attacking()
+	{
+		
     }
 }

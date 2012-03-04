@@ -6,6 +6,7 @@
 *.booproj
 *.csproj
 *.unityproj
+Thumbs.db
 
 Main/Build/
 Main/Temp/
