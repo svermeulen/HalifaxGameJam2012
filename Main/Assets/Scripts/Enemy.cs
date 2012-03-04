@@ -2,25 +2,25 @@ using System;
 using UnityEngine;
 using System.Collections;
 
-public class Enemy1 : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     public float moveSpeed = 0.1f;
     public float targetDistance = 0.1f;
 
     private AnimationHandler animHandler;
-	private Coyote coyote;
+	private Kid kid;
 
 	// Use this for initialization
 	void Start ()
 	{
 	    animHandler = GetComponent<AnimationHandler>();
-		coyote = GameObject.FindWithTag("coyote").GetComponent<Coyote>();
+		kid = GameObject.FindWithTag("kid").GetComponent<Kid>();
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-		var deltaTarget = coyote.transform.position - transform.position;
+		var deltaTarget = kid.transform.position - transform.position;
 		var distance = deltaTarget.magnitude;
 		
 		var direction = deltaTarget / distance;

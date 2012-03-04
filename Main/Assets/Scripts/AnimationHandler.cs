@@ -33,7 +33,7 @@ public class AnimationHandler : MonoBehaviour
     {
 		_spriteTransform.transform.position = transform.TransformPoint(_spriteTransform.transform.position);
 		
-        _sprite = _spriteManager.AddSprite(_spriteTransform, _width, _height, 0, 127, 128, 128, false);
+        _sprite = _spriteManager.AddSprite(_spriteTransform, _width, _height, 0, (int)_cellSize.x-1, (int)_cellSize.x, (int)_cellSize.x, false);
 
         for (var i = 0; i < _anims.Length; i++)
         {			

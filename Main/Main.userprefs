@@ -1,8 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Kid.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\AnimationHandler.cs">
     <Files>
-      <File FileName="Assets\Scripts\Kid.cs" Line="19" Column="2" />
+      <File FileName="Assets\Scripts\Kid.cs" Line="15" Column="3" />
+      <File FileName="Assets\Scripts\AnimationHandler.cs" Line="36" Column="125" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
