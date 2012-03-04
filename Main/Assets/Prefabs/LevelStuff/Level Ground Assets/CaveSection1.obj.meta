@@ -1,8 +1,8 @@
 fileFormatVersion: 2
-guid: 1faa9789100a88f45b5ffa210918e288
+guid: 181eff8e60b38fc459040cff46e90190
 ModelImporter:
   fileIDToRecycleName:
-    4300000: Start_Ground
+    4300000: Box01
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -47,7 +47,7 @@ ModelImporter:
       data:
         first: 111
         second: 605fa900
-    Start_Ground:
+    Box01:
       data:
         first: 1
         second: a0860100
