@@ -130,6 +130,11 @@ public class Enemy : MonoBehaviour
 		state = State.Moving;
 	}
 	
+	public void Die()
+	{
+		Destroy(gameObject);
+	}
+	
 	void Idle()
 	{
 		float distance = (kid.transform.position - transform.position).magnitude;

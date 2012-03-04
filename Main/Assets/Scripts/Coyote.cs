@@ -10,6 +10,9 @@ public class Coyote : MonoBehaviour
 	public float rotateFriction;
 	public float rotateSpring;
 	public float jumpForce;
+	
+	public float biteRadius = 0;
+	public Vector3 biteOffset;
 
     private AnimationHandler animHandler;
 	
@@ -80,6 +83,7 @@ public class Coyote : MonoBehaviour
 	void CommonUpdate()
 	{
 		Debug.DrawLine(transform.position, transform.position + desiredDirection * 1);
+		Debug.DrawLine(GetBitePosition(), GetBitePosition() + Vector3.up * 1);
 		
         transform.position += velocity * Time.deltaTime;
 		
@@ -108,6 +112,14 @@ public class Coyote : MonoBehaviour
 			if (state != State.Jumping)
 			{
 				StartJump();
+			}
+		}
+		
+		if (Input.GetButton("Attack")) 
+		{
+			if (state != State.Attacking)
+			{
+				StartAttack();
 			}
 		}
 	}
@@ -245,9 +257,50 @@ public class Coyote : MonoBehaviour
 			velocity = maxSpeed * velocity / speed;
 		}
 	}
+	
+	void StartAttack()
+	{
+		state = State.Attacking;
+		
+		animHandler.ChangeAnim(lookingRight ? "AttackRight" : "AttackLeft", delegate()
+        {
+			FinishedAttack();
+        });
+	}
+	
+	Vector3 GetBitePosition()
+	{
+		var bitePosition = transform.position;
+		
+		if (lookingRight)
+		{
+			bitePosition += biteOffset;
+		}
+		else
+		{
+			bitePosition -= biteOffset;	
+		}
+		
+		return bitePosition;
+	}
+	
+	void FinishedAttack()
+	{
+		foreach ( var enemyObj in GameObject.FindGameObjectsWithTag("enemy") )
+		{
+			var distance = (enemyObj.transform.position - GetBitePosition()).magnitude;
+			
+			if (distance < biteRadius)
+			{
+				enemyObj.GetComponent<Enemy>().Die();
+			}
+		}
+		state = State.Idle;
+	}
 
     void Attacking()
     {
+		velocity *= velocityDampening;
 	}
 
     void Turning()
