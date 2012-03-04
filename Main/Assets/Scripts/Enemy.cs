@@ -42,6 +42,9 @@ public class Enemy : MonoBehaviour
 		
 		if (comeFromRight)
 		{
+			var renderer = GetComponentInChildren<MeshRenderer>();
+			renderer.enabled = false;
+			
 			state = State.WaitingToSpawn;
 		}
 		else
@@ -80,8 +83,9 @@ public class Enemy : MonoBehaviour
 	{
 		if (transform.position.x - camera.transform.position.x > distanceRightStart)
 		{
-			Debug.Log("YEAH");
-			///state = State.Moving;
+			var renderer = GetComponentInChildren<MeshRenderer>();
+			renderer.enabled = true;
+			state = State.Moving;
 		}
 	}
 	
