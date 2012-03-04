@@ -52,12 +52,13 @@ public class AnimationHandler : MonoBehaviour
             var anim = new UVAnimation();
 			
 			var firstFrameCoords = new Vector2(
-				_anims[i].firstFrame.x * _cellSize.x, 
+				//_anims[i].firstFrame.x * _cellSize.x, 
+				0,
 				_anims[i].firstFrame.y * _cellSize.y);
 			
             var firstFrame = _spriteManager.PixelCoordToUVCoord(firstFrameCoords);
             var cellSize = _spriteManager.PixelSpaceToUVSpace(_cellSize);
-            anim.BuildUVAnim(firstFrame, cellSize, _anims[i].columns, _anims[i].rows, _anims[i].totalCells, _anims[i].fps);
+            anim.BuildUVAnim(firstFrame, cellSize, _anims[i].columns, _anims[i].rows, _anims[i].totalCells, _anims[i].fps, (int)(_anims[i].firstFrame.x));
             anim.name = _anims[i].name;
             anim.loopCycles = _anims[i].loopCycles;
             _sprite.AddAnimation(anim);

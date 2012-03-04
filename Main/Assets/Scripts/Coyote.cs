@@ -5,9 +5,11 @@ using System.Collections;
 public class Coyote : MonoBehaviour
 {
     public float moveSpeed = 0.1f;
+	public float jumpMoveSpeed = 0.1f;
 	public float torqueSpring = 0.1f;
 	public float rotateFriction;
 	public float rotateSpring;
+	public float jumpForce;
 
     private AnimationHandler animHandler;
 	
@@ -21,7 +23,8 @@ public class Coyote : MonoBehaviour
         Idle,
         Moving,
 		Turning,
-		Attacking
+		Attacking, 
+		Jumping
     }
 
     private State state;
@@ -46,6 +49,7 @@ public class Coyote : MonoBehaviour
 		}
 		
 		CommonUpdate();
+
 	    switch (state)
 	    {
 	        case State.Idle:
@@ -62,6 +66,10 @@ public class Coyote : MonoBehaviour
 
 	        case State.Attacking:
 	            Attacking();
+                break;
+
+	        case State.Jumping:
+	            Jumping();
                 break;
 
 	        default:
@@ -95,38 +103,13 @@ public class Coyote : MonoBehaviour
 		
 		rigidBody.AddTorque(new Vector3(0, 0, diff) * rotateSpring);
 		
-		/*
-		//Vector3 dir = new Vector3(normalTest.y, -normalTest.x, normalTest.z);
-		var dir = new Vector3(0, 1, 0);
-		
-		var theta = Mathf.Atan2(dir.y, dir.x);
-		
-		var rigidBody = GetComponent<Rigidbody>();
-		var angles = rigidBody.rotation.eulerAngles;
-		
-		rigidBody.AddTorque(new Vector3(0, 0, theta-angles.z) * torqueSpring);
-		*/
-		/*
-        if (Math.Abs(Input.GetAxis("Fire1")) > 0.01f)
-        {
-			if (IsLookingRight())
+		if (Input.GetButton ("Jump")) 
+		{
+			if (state != State.Jumping)
 			{
-	            state = State.AttackingRight;
-	            animHandler.ChangeAnim("AttackRight", delegate()
-	            {
-	                animHandler.ChangeAnim("IdleRight");
-	            });
+				StartJump();
 			}
-			else
-			{
-	            state = State.AttackingLeft;
-	            animHandler.ChangeAnim("AttackLeft", delegate()
-	            {
-	                state = State.Idle;
-	                animHandler.ChangeAnim("IdleRight");
-	            });
-			}
-        }*/
+		}
 	}
 
     void Idle()
@@ -219,6 +202,24 @@ public class Coyote : MonoBehaviour
         });
 	}
 	
+	void StartJump()
+	{
+		state = State.Jumping;
+		
+		var rigidBody = GetComponent<Rigidbody>();
+		rigidBody.AddForce( new Vector3(0, jumpForce, 0) );
+		
+		animHandler.ChangeAnim(lookingRight ? "JumpRight" : "JumpLeft", delegate()
+        {
+			state = State.Moving;
+        });
+	}
+	
+	void Jumping()
+	{
+		MovableCommon();
+	}
+	
 	void TurnLeft()
 	{
 		lookingRight = false;
@@ -234,9 +235,11 @@ public class Coyote : MonoBehaviour
 	{
         var accel = Input.GetAxis("Horizontal");
 		
-		velocity += new Vector3(accel, 0, 0) * moveSpeed * Time.deltaTime;
+		var accelSpeed = (state == State.Jumping) ? jumpMoveSpeed : moveSpeed;
+		
+		velocity += new Vector3(accel, 0, 0) * accelSpeed * Time.deltaTime;
 		var speed = velocity.magnitude;
-				
+
 		if (speed > maxSpeed)
 		{
 			velocity = maxSpeed * velocity / speed;
