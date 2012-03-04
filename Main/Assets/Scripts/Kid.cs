@@ -6,6 +6,7 @@ public class Kid : MonoBehaviour
 {
     public float moveSpeed = 0.1f;
     public float targetDistance = 0.1f;
+	public Vector3 deathOffset;
 
     private AnimationHandler animHandler;
 	private Coyote coyote;
@@ -15,7 +16,8 @@ public class Kid : MonoBehaviour
     enum State
     {
         Idle,
-		Moving
+		Moving,
+		Dead
     }
 
     private State state;
@@ -29,6 +31,11 @@ public class Kid : MonoBehaviour
 		state = State.Moving;
 	}
 	
+	void OnGUI()
+	{
+		GUI.Label( new Rect(100, 100, 100, 100), "Health: "+ health );
+	}
+	
 	// Update is called once per frame
 	void Update ()
     {
@@ -40,6 +47,9 @@ public class Kid : MonoBehaviour
 			
 	        case State.Moving:
 	            Moving();
+                break;
+			
+	        case State.Dead:
                 break;
 
 	        default:
@@ -80,6 +90,10 @@ public class Kid : MonoBehaviour
 	
 	public void TakeDamage(float damage)
 	{
+		if (state == State.Dead)
+		{
+			return;
+		}
 		health -= damage;
 		
 		if (health <= 0)
@@ -87,8 +101,16 @@ public class Kid : MonoBehaviour
 			var guiObj = GameObject.Find("Gui");
 			
 			if (guiObj)
-			{
-				guiObj.GetComponent<GuiHandler>().EnablePopup(GuiHandler.Popups.Death);
+			{				
+				state = State.Dead;
+				Destroy(GetComponent<Rigidbody>());
+				Destroy(GetComponent<Collider>());
+				transform.position -= deathOffset;
+								
+				animHandler.ChangeAnim("DieLeft", delegate()
+		        {
+					//guiObj.GetComponent<GuiHandler>().EnablePopup(GuiHandler.Popups.Death);
+		        });
 			}
 		}
 	}
