@@ -3,10 +3,6 @@ using System.Collections;
 
 public class Stalact : MonoBehaviour {
 	
-	public GameObject pieces;
-	
-	public float acceleration;
-	
 	// Use this for initialization
 	void Start () {
 	
@@ -14,15 +10,11 @@ public class Stalact : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position += Vector3.down * acceleration * Time.deltaTime;
 	}
 	
-	void OnTriggerEnter(Collider other)
+	void OnCollisionEnter(Collision other)
 	{
-		if (other.gameObject.tag == "level")
-		{
-			GameObject.Instantiate(pieces, transform.position, Quaternion.identity);
-			Destroy(gameObject);
-		}
+		// Only deal damage to the first thing hit. If ground is hit first, then the kid is not hurt.
+		//Destroy (gameObject.transform.parent.gameObject);
 	}
 }
