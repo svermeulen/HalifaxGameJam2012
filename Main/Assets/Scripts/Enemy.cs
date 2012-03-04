@@ -9,6 +9,9 @@ public class Enemy : MonoBehaviour
 
     private AnimationHandler animHandler;
 	private Kid kid;
+	
+	public float velocityDampening = 0.95f;
+	public float maxSpeed;
 
     enum State
     {
@@ -17,6 +20,7 @@ public class Enemy : MonoBehaviour
     }
 	
 	State state;
+	Vector3 velocity;
 	
 	// Use this for initialization
 	void Start ()
@@ -30,6 +34,7 @@ public class Enemy : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+		CommonUpdate();
 	    switch (state)
 	    {
 	        case State.Moving:
@@ -45,11 +50,48 @@ public class Enemy : MonoBehaviour
 	    }
 	}
 	
+	void CommonUpdate()
+	{
+        //transform.position += velocity * Time.deltaTime;
+	}
+	
+	void MovableCommon()
+	{
+		var deltaTarget = kid.transform.position - transform.position;
+		var distance = deltaTarget.magnitude;
+		
+		var direction = deltaTarget / distance;
+
+		velocity += direction * moveSpeed * Time.deltaTime;
+		
+		var speed = velocity.magnitude;
+		
+		if (speed > maxSpeed)
+		{
+			velocity = maxSpeed * velocity / speed;
+		}
+	}
+	
 	void Moving()
 	{
 		var deltaTarget = kid.transform.position - transform.position;
 		var distance = deltaTarget.magnitude;
-
+		
+		var direction = deltaTarget / distance;
+		
+		var rigidBody = GetComponent<Rigidbody>();
+		
+		//rigidBody.AddForce(direction * moveSpeed);
+		
+		velocity += direction * moveSpeed * Time.deltaTime;
+		
+		var speed = velocity.magnitude;
+		
+		if (speed > maxSpeed)
+		{
+			velocity = maxSpeed * velocity / speed;
+		}
+		
 		if (deltaTarget.x < 0)
 		{
 			animHandler.ChangeAnim("MoveLeft");
@@ -59,22 +101,22 @@ public class Enemy : MonoBehaviour
 			animHandler.ChangeAnim("MoveRight");
 		}
 		
+		/*
 		if (distance <= targetDistance)
 		{
-			//state = State.Attacking;
-			//animHandler.ChangeAnim("AttackLeft");
-			return;
-		}
-		
-		var direction = deltaTarget;
-		direction.y = 0;
-		direction.Normalize();
-		
-		transform.position += direction * moveSpeed;
+			velocity *= velocityDampening;
+			state = State.Attacking;
+			
+			animHandler.ChangeAnim( velocity.x > 0 ? "AttackRight" : "AttackLeft", delegate()
+	        {
+				state = State.Moving;
+	        });
+		}*/
     }
 	
 	void Attacking()
 	{
-		
+		//MovableCommon();
+		//velocity *= velocityDampening;
     }
 }
