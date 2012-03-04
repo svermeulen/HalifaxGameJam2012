@@ -24,8 +24,12 @@ public class AnimationHandler : MonoBehaviour
 	
     public float _width = 1.0f;
     public float _height = 1.0f;
+	
+	public int _depthLayer = 0;
+	
     public String _defaultAnimation;
     public Vector2 _cellSize;
+	public float _depthScaleFactor = 1;
 
     public AnimationInfo[] _anims;
 
@@ -37,6 +41,8 @@ public class AnimationHandler : MonoBehaviour
 		var transTest = new GameObject("MaterialTransform_"+ this.name);
 		
 		transTest.transform.position = transform.TransformPoint(transTest.transform.position);
+		transTest.transform.position += new Vector3(0, 0, _depthLayer) * _depthScaleFactor;
+		
 		transTest.transform.localScale = new Vector3(_scaleX, _scaleY, 0.5f);
 	
     	_sprite = _spriteManager.AddSprite(transTest, _width, _height, 0, (int)_cellSize.x-1, (int)_cellSize.x, (int)_cellSize.x, false);

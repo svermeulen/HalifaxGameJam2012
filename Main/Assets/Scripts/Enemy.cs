@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour
 	public float flipThreshold = 1;
 	public float damageAmount = 0;
 	public float hurtDistance = 0;
+	public float downOffset = 0;
+	public float triggerDistance = 1;
 
     private AnimationHandler animHandler;
 	private Kid kid;
@@ -20,7 +22,8 @@ public class Enemy : MonoBehaviour
     enum State
     {
         Moving,
-		Attacking
+		Attacking,
+		Idle
     }
 	
 	State state;
@@ -31,7 +34,7 @@ public class Enemy : MonoBehaviour
 	    animHandler = GetComponent<AnimationHandler>();
 		kid = GameObject.FindWithTag("kid").GetComponent<Kid>();
 		
-		state = State.Moving;
+		state = State.Idle;
 	}
 		
 	// Update is called once per frame
@@ -47,6 +50,10 @@ public class Enemy : MonoBehaviour
 	        case State.Attacking:
 	            Attacking();
                 break;
+			
+	        case State.Idle:
+	            Idle();
+                break;
 
 	        default:
 	            throw new ArgumentOutOfRangeException();
@@ -59,8 +66,23 @@ public class Enemy : MonoBehaviour
 	
 	float MovableCommon()
 	{
-		var deltaTarget = kid.transform.position - transform.position;
+		var deltaTarget = (kid.transform.position + Vector3.down * downOffset) - transform.position;
 		var distance = deltaTarget.magnitude;
+		
+		if (facingRight)
+		{
+			if (deltaTarget.x < 0)
+			{
+				facingRight = false;
+			}
+		}
+		else
+		{
+			if (deltaTarget.x > 0)
+			{
+				facingRight = true;
+			}
+		}
 		
 		var direction = deltaTarget / distance;
 		
@@ -73,21 +95,6 @@ public class Enemy : MonoBehaviour
 	void Moving()
 	{		
 		var rigidBody = GetComponent<Rigidbody>();
-		
-		if (facingRight)
-		{
-			if (rigidBody.velocity.x < -flipThreshold)
-			{
-				facingRight = false;
-			}
-		}
-		else
-		{
-			if (rigidBody.velocity.x > flipThreshold)
-			{
-				facingRight = true;
-			}
-		}
 		
 		if (facingRight)
 		{
@@ -122,6 +129,25 @@ public class Enemy : MonoBehaviour
 		
 		state = State.Moving;
 	}
+	
+	void Idle()
+	{
+		float distance = (kid.transform.position - transform.position).magnitude;
+		
+		if (facingRight)
+		{
+			animHandler.ChangeAnim("IdleRight");
+		}
+		else
+		{
+			animHandler.ChangeAnim("IdleLeft");
+		}
+		
+		if (distance < triggerDistance)
+		{
+			state = State.Moving;
+		}
+    }
 	
 	void Attacking()
 	{
