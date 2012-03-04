@@ -7,13 +7,9 @@ public class ParallaxPlane : MonoBehaviour {
 	public Camera camera;
 	
 	private float cameraXBase;
-	private float cameraYBase;
-	private float cameraZBase;
 	
 	void Start() {
 		cameraXBase = camera.transform.position.x;
-		cameraYBase = camera.transform.position.y;
-		cameraZBase = camera.transform.position.z;
 	}
 	
 	void Update () {
