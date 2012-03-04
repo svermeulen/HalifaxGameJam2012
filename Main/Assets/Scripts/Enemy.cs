@@ -15,15 +15,20 @@ public class Enemy : MonoBehaviour
     private AnimationHandler animHandler;
 	private Kid kid;
 	
+	public bool comeFromRight = true;
+	
 	public float maxSpeed;
+	public float distanceRightStart;
 		
 	bool facingRight = false;
+	GameObject camera;
 
     enum State
     {
         Moving,
 		Attacking,
-		Idle
+		Idle,
+		WaitingToSpawn
     }
 	
 	State state;
@@ -33,14 +38,21 @@ public class Enemy : MonoBehaviour
 	{
 	    animHandler = GetComponent<AnimationHandler>();
 		kid = GameObject.FindWithTag("kid").GetComponent<Kid>();
+		camera = GameObject.FindGameObjectWithTag("MainCamera");
 		
-		state = State.Idle;
+		if (comeFromRight)
+		{
+			state = State.WaitingToSpawn;
+		}
+		else
+		{
+			state = State.Idle;
+		}
 	}
 		
 	// Update is called once per frame
 	void Update ()
     {
-		CommonUpdate();
 	    switch (state)
 	    {
 	        case State.Moving:
@@ -54,14 +66,23 @@ public class Enemy : MonoBehaviour
 	        case State.Idle:
 	            Idle();
                 break;
+			
+	        case State.WaitingToSpawn:
+	            WaitingToSpawn();
+                break;
 
 	        default:
 	            throw new ArgumentOutOfRangeException();
 	    }
 	}
 	
-	void CommonUpdate()
+	void WaitingToSpawn()
 	{
+		if (transform.position.x - camera.transform.position.x > distanceRightStart)
+		{
+			Debug.Log("YEAH");
+			///state = State.Moving;
+		}
 	}
 	
 	float MovableCommon()
