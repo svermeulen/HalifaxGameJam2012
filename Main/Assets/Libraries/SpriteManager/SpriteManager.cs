@@ -136,6 +136,32 @@ public class UVAnimation
         return frames;
     }
 
+    public Vector2[] BuildUVAnim(Vector2 start, Vector2 cellSize, int cols, int rows, int totalCells, float fps, int colStart)
+    {
+        int cellCount = 0;
+
+        frames = new Vector2[totalCells];
+        framerate = fps;
+
+        frames[0] = start;
+
+        for (int row = 0; row < rows; ++row)
+        {
+			if (row != 0)
+				colStart = 0;
+			
+            for (int col = colStart; col < cols && cellCount < totalCells; ++col)
+            {
+                frames[cellCount].x = start.x + cellSize.x * ((float)col);
+                frames[cellCount].y = start.y - cellSize.y * ((float)row);
+
+                ++cellCount;
+            }
+        }
+
+        return frames;
+    }
+
     // Assigns the specified array of UV coordinates to the
     // animation, replacing its current contents
     public void SetAnim(Vector2[] anim)
