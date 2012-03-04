@@ -41,7 +41,12 @@ public class UVAnimation
         stepDir = 1;
         numLoops = 0;
     }
-
+	
+	public void FlipDirection()
+	{
+        stepDir = (stepDir == 1) ? -1 : 1;
+	}
+	
     // Sets the stepDir to -1 and sets the current frame to the end
     // so that the animation plays in reverse
     public void PlayInReverse()
@@ -120,6 +125,32 @@ public class UVAnimation
         for (int row = 0; row < rows; ++row)
         {
             for (int col = 0; col < cols && cellCount < totalCells; ++col)
+            {
+                frames[cellCount].x = start.x + cellSize.x * ((float)col);
+                frames[cellCount].y = start.y - cellSize.y * ((float)row);
+
+                ++cellCount;
+            }
+        }
+
+        return frames;
+    }
+
+    public Vector2[] BuildUVAnim(Vector2 start, Vector2 cellSize, int cols, int rows, int totalCells, float fps, int colStart)
+    {
+        int cellCount = 0;
+
+        frames = new Vector2[totalCells];
+        framerate = fps;
+
+        frames[0] = start;
+
+        for (int row = 0; row < rows; ++row)
+        {
+			if (row != 0)
+				colStart = 0;
+			
+            for (int col = colStart; col < cols && cellCount < totalCells; ++col)
             {
                 frames[cellCount].x = start.x + cellSize.x * ((float)col);
                 frames[cellCount].y = start.y - cellSize.y * ((float)row);

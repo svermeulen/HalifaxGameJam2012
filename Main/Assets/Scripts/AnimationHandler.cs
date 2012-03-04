@@ -18,55 +18,81 @@ public class AnimationInfo
 public class AnimationHandler : MonoBehaviour
 {
     public LinkedSpriteManager _spriteManager;
-    public GameObject _spriteTransform;
+	
+	public float _scaleX = 1;
+	public float _scaleY = 1;
 	
     public float _width = 1.0f;
     public float _height = 1.0f;
+	
+	public int _depthLayer = 0;
+	
     public String _defaultAnimation;
     public Vector2 _cellSize;
+	public float _depthScaleFactor = 1;
 
     public AnimationInfo[] _anims;
 
     Sprite _sprite;
+	string _currentAnimation;
 
     void Start()
     {
-		_spriteTransform.transform.position = transform.TransformPoint(_spriteTransform.transform.position);
+		var transTest = new GameObject("MaterialTransform_"+ this.name);
 		
-        _sprite = _spriteManager.AddSprite(_spriteTransform, _width, _height, 0, (int)_cellSize.x-1, (int)_cellSize.x, (int)_cellSize.x, false);
+		transTest.transform.position = transform.TransformPoint(transTest.transform.position);
+		transTest.transform.position += new Vector3(0, 0, _depthLayer) * _depthScaleFactor;
+		
+		transTest.transform.localScale = new Vector3(_scaleX, _scaleY, 0.5f);
+	
+    	_sprite = _spriteManager.AddSprite(transTest, _width, _height, 0, (int)_cellSize.x-1, (int)_cellSize.x, (int)_cellSize.x, false);
 
         for (var i = 0; i < _anims.Length; i++)
         {			
             var anim = new UVAnimation();
 			
 			var firstFrameCoords = new Vector2(
-				_anims[i].firstFrame.x * _cellSize.x, 
+				//_anims[i].firstFrame.x * _cellSize.x, 
+				0,
 				_anims[i].firstFrame.y * _cellSize.y);
 			
             var firstFrame = _spriteManager.PixelCoordToUVCoord(firstFrameCoords);
             var cellSize = _spriteManager.PixelSpaceToUVSpace(_cellSize);
-            anim.BuildUVAnim(firstFrame, cellSize, _anims[i].columns, _anims[i].rows, _anims[i].totalCells, _anims[i].fps);
+            anim.BuildUVAnim(firstFrame, cellSize, _anims[i].columns, _anims[i].rows, _anims[i].totalCells, _anims[i].fps, (int)(_anims[i].firstFrame.x));
             anim.name = _anims[i].name;
             anim.loopCycles = _anims[i].loopCycles;
             _sprite.AddAnimation(anim);
         }
-
+		
+		_currentAnimation = _defaultAnimation;
         _sprite.PlayAnim(_defaultAnimation);
 		
     }
 	
-	public void Flip()
+	public string CurrentAnimation
 	{
-		
+		get { return _currentAnimation; }
 	}
 	
     public void ChangeAnim(String anim)
     {
+		if (anim == _currentAnimation)
+		{
+			return;
+		}
+		
+		_currentAnimation = anim;
         _sprite.PlayAnim(anim);
     }
+	
+	public void FlipDirection()
+	{
+		//_sprite.FlipDirection();
+	}
 
     public void ChangeAnim(String anim, Sprite.AnimCompleteDelegate callback)
     {
+		_currentAnimation = anim;
         _sprite.PlayAnim(anim);
         _sprite.SetAnimCompleteDelegate(callback);
     }
