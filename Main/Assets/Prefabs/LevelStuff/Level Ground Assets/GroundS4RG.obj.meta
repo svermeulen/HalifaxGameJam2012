@@ -1,8 +1,8 @@
 fileFormatVersion: 2
-guid: 15960c106d296b843bfbff0ff0d6b607
+guid: 041b028650222ed498c8a2ee35d36294
 ModelImporter:
   fileIDToRecycleName:
-    4300000: Ground_S2
+    4300000: GroundRGS4
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -47,7 +47,7 @@ ModelImporter:
       data:
         first: 111
         second: 605fa900
-    Ground_S2:
+    GroundRGS4:
       data:
         first: 1
         second: a0860100
