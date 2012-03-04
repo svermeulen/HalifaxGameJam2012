@@ -7,15 +7,17 @@ public class ParallaxPlane : MonoBehaviour {
 	public Camera camera;
 	
 	private float cameraXBase;
+	private float objectXBase;
 	
 	void Start() {
 		cameraXBase = camera.transform.position.x;
+		objectXBase = gameObject.transform.position.x;
 	}
 	
 	void Update () {
 		float xOffset = computeXOffset ();
 		Vector3 p = gameObject.transform.localPosition;
-		gameObject.transform.localPosition = new Vector3(xOffset, p.y, p.z);
+		gameObject.transform.localPosition = new Vector3(objectXBase + xOffset, p.y, p.z);
 	}
 	
 	float computeXOffset() {
