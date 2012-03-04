@@ -77,6 +77,11 @@ public class AnimationHandler : MonoBehaviour
 		_currentAnimation = anim;
         _sprite.PlayAnim(anim);
     }
+	
+	public void FlipDirection()
+	{
+		//_sprite.FlipDirection();
+	}
 
     public void ChangeAnim(String anim, Sprite.AnimCompleteDelegate callback)
     {

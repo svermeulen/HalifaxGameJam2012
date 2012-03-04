@@ -41,7 +41,12 @@ public class UVAnimation
         stepDir = 1;
         numLoops = 0;
     }
-
+	
+	public void FlipDirection()
+	{
+        stepDir = (stepDir == 1) ? -1 : 1;
+	}
+	
     // Sets the stepDir to -1 and sets the current frame to the end
     // so that the animation plays in reverse
     public void PlayInReverse()

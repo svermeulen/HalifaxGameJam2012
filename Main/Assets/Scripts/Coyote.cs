@@ -7,54 +7,51 @@ public class Coyote : MonoBehaviour
     public float moveSpeed = 0.1f;
 
     private AnimationHandler animHandler;
-
+	
+	const float MOVE_THRESHOLD = 0.01f;
+	
+	public float velocityDampening = 0.95f;
+	public float maxSpeed;
+	
     enum State
     {
-        IdleRight,
-        MovingRight,
-        AttackingRight,
-        IdleLeft,
-        MovingLeft,
-        AttackingLeft
+        Idle,
+        Moving,
+		Turning,
+		Attacking
     }
 
     private State state;
+	bool lookingRight = true;
+	Vector3 velocity;
 
 	// Use this for initialization
 	void Start ()
 	{
-	    state = State.IdleRight;
+	    state = State.Idle;
 	    animHandler = GetComponent<AnimationHandler>();
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-		StateCommon();
+		CommonUpdate();
 	    switch (state)
 	    {
-	        case State.IdleLeft:
-	            Idle();
-                break;
-			
-	        case State.IdleRight:
+	        case State.Idle:
 	            Idle();
                 break;
 
-            case State.MovingRight:
-                MovingRightState();
+            case State.Moving:
+                Moving();
                 break;
 
-            case State.MovingLeft:
-                MovingLeftState();
+            case State.Turning:
+                Turning();
                 break;
 
-	        case State.AttackingLeft:
-	            AttackingLeftState();
-                break;
-
-	        case State.AttackingRight:
-	            AttackingRightState();
+	        case State.Attacking:
+	            Attacking();
                 break;
 
 	        default:
@@ -62,13 +59,10 @@ public class Coyote : MonoBehaviour
 	    }
     }
 	
-	bool IsLookingRight()
+	void CommonUpdate()
 	{
-		return state == State.AttackingRight || state == State.IdleRight || state == State.MovingRight;
-	}
-	
-	void StateCommon()
-	{
+        transform.position += velocity * Time.deltaTime;
+		
 		/*
         if (Math.Abs(Input.GetAxis("Fire1")) > 0.01f)
         {
@@ -92,63 +86,100 @@ public class Coyote : MonoBehaviour
         }*/
 	}
 
-    void CheckForAttack()
-    {
-    }
-
     void Idle()
     {
         var accel = Input.GetAxis("Horizontal");
+		velocity *= velocityDampening;
 		
-        if (accel > 0.01f)
-        {
-            state = State.MovingRight;
-            animHandler.ChangeAnim("MoveRight");
-        }
-		else if (accel < -0.01f)
+		if (lookingRight)
 		{
-            state = State.MovingLeft;
-            animHandler.ChangeAnim("MoveLeft");
+			animHandler.ChangeAnim("IdleRight");
 		}
 		else
 		{
-        	//CheckForAttack();
+			animHandler.ChangeAnim("IdleLeft");
 		}
+		
+        if (Mathf.Abs(accel) >= MOVE_THRESHOLD)
+        {
+            state = State.Moving;
+        }
     }
 
-    void MovingRightState()
+    void Moving()
     {
+		MovableCommon();
+		
         var accel = Input.GetAxis("Horizontal");
-        transform.position += new Vector3(accel, 0, 0) * moveSpeed;
-
-        if (Math.Abs(accel) < 0.001f)
-        {
-            animHandler.ChangeAnim("IdleRight");
-            state = State.IdleRight;
-            return;
+		velocity += new Vector3(accel, 0, 0) * moveSpeed * Time.deltaTime;
+		
+		if (accel < -MOVE_THRESHOLD)
+		{
+			if (lookingRight)
+			{
+				TurnLeft();
+				return;
+			}
+			
+			animHandler.ChangeAnim("MoveLeft");
+		}
+		else if (accel > MOVE_THRESHOLD)
+		{
+			if (!lookingRight)
+			{
+				TurnRight();
+				return;
+			}
+			
+			animHandler.ChangeAnim("MoveRight");
+		}
+		else
+		{
+            state = State.Idle;
         }
-        
-        //CheckForAttack();
     }
-
-    void MovingLeftState()
-    {
-        var accel = Input.GetAxis("Horizontal");
-        transform.position += new Vector3(accel, 0, 0) * moveSpeed;
-
-        if (Math.Abs(accel) < 0.001f)
+	
+	void TurnRight()
+	{
+		lookingRight = true;
+		state = State.Turning;
+		
+		animHandler.ChangeAnim("TurnRight", delegate()
         {
-            animHandler.ChangeAnim("IdleLeft");
-            state = State.IdleLeft;
-            return;
-        }
+			state = State.Moving;
+        });
+	}
+	
+	void TurnLeft()
+	{
+		lookingRight = false;
+		state = State.Turning;
+		
+		animHandler.ChangeAnim("TurnLeft", delegate()
+        {
+			state = State.Moving;
+        });
+	}
+	
+	void MovableCommon()
+	{
+        var accel = Input.GetAxis("Horizontal");
+		
+		velocity += new Vector3(accel, 0, 0) * moveSpeed * Time.deltaTime;
+		var speed = velocity.magnitude;
+		
+		if (speed > maxSpeed)
+		{
+			velocity = maxSpeed * velocity / speed;
+		}
 	}
 
-    void AttackingRightState()
+    void Attacking()
     {
 	}
 
-    void AttackingLeftState()
+    void Turning()
     {
-    }
+		MovableCommon();
+	}
 }
