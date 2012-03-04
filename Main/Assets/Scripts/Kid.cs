@@ -29,11 +29,6 @@ public class Kid : MonoBehaviour
 		state = State.Moving;
 	}
 	
-	void OnGUI()
-	{
-		GUI.Label( new Rect(10, 10, 100, 100), "Health: "+ health);
-	}
-	
 	// Update is called once per frame
 	void Update ()
     {
