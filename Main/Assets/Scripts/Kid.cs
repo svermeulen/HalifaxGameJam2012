@@ -122,4 +122,12 @@ public class Kid : MonoBehaviour
 			ctl.Fall();
 		}
 	}
+	
+	void OnCollisionEnter(Collision other)
+	{
+		Debug.Log(other.gameObject.name);
+		if (other.gameObject.name == "StalactPiece") {
+			Debug.Log ("take damage");
+		}
+	}
 }
