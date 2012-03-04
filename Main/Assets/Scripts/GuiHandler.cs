@@ -32,7 +32,7 @@ public class GuiHandler : MonoBehaviour
 		        if (GUI.Button(new Rect(Screen.width/2, (Screen.height/2 + 180), 130, 60), "You died. Restart?"))
 				{
 					Time.timeScale = 1;
-		            Application.LoadLevel(1);
+		            Application.LoadLevel(0);
 		        }
 				break;
 			}

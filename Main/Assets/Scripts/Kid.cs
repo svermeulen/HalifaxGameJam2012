@@ -21,10 +21,12 @@ public class Kid : MonoBehaviour
     }
 
     private State state;
+	GameObject camera;
 	
 	// Use this for initialization
 	void Start ()
 	{
+		camera = GameObject.FindGameObjectWithTag("MainCamera");
 	    animHandler = GetComponent<AnimationHandler>();
 		coyote = GameObject.FindWithTag("coyote").GetComponent<Coyote>();
 		
@@ -32,13 +34,22 @@ public class Kid : MonoBehaviour
 	}
 	
 	void OnGUI()
+	{		
+		GUI.Label( new Rect(10, 10, 100, 100), "Health: "+ health );
+	}
+	
+	void ApplyDarknessDamage()
 	{
-		GUI.Label( new Rect(100, 100, 100, 100), "Health: "+ health );
+		if (transform.position.x - camera.transform.position.x > 7)
+		{
+			TakeDamage( 1 );
+		}
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
+		ApplyDarknessDamage();
 	    switch (state)
 	    {
 	        case State.Idle:
@@ -90,7 +101,7 @@ public class Kid : MonoBehaviour
 	
 	public void TakeDamage(float damage)
 	{
-		Debug.Log ("take damage: " + damage);
+		//Debug.Log ("take damage: " + damage);
 		if (state == State.Dead)
 		{
 			return;
@@ -110,7 +121,7 @@ public class Kid : MonoBehaviour
 								
 				animHandler.ChangeAnim("DieLeft", delegate()
 		        {
-					//guiObj.GetComponent<GuiHandler>().EnablePopup(GuiHandler.Popups.Death);
+					guiObj.GetComponent<GuiHandler>().EnablePopup(GuiHandler.Popups.Death);
 		        });
 			}
 		}

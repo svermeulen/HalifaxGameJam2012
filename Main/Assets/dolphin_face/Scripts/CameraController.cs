@@ -11,8 +11,15 @@ public class CameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Vector3 delta = new Vector3(cameraSpeed * Time.deltaTime, 0.0f, 0.0f);
-		transform.Translate(delta);
+		if (transform.position.x > -230)
+		{
+			Vector3 delta = new Vector3(cameraSpeed * Time.deltaTime, 0.0f, 0.0f);
+			transform.Translate(delta);
+		}
+		else
+		{
+			
+		}
 	}
 	
 }
