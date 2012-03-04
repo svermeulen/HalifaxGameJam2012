@@ -35,10 +35,14 @@ public class Coyote : MonoBehaviour
 	Vector3 velocity;
 	bool isOnFloor = false;
 	public Vector3 desiredDirection = new Vector3(1, 0, 0);
+	
+	Vector3 colliderOffsetStart;
 
 	// Use this for initialization
 	void Start ()
 	{
+		colliderOffsetStart = GetComponent<CapsuleCollider>().center;
+				
 	    state = State.Idle;
 	    animHandler = GetComponent<AnimationHandler>();
 	}
@@ -85,9 +89,11 @@ public class Coyote : MonoBehaviour
 		Debug.DrawLine(transform.position, transform.position + desiredDirection * 1);
 		Debug.DrawLine(GetBitePosition(), GetBitePosition() + Vector3.up * 1);
 		
-        transform.position += velocity * Time.deltaTime;
+        //transform.position += velocity * Time.deltaTime;
 		
 		var rigidBody = GetComponent<Rigidbody>();
+		
+		rigidBody.velocity = new Vector3(velocity.x, rigidBody.velocity.y, rigidBody.velocity.z);
 				
 		// Add friction to rotation
 		rigidBody.AddTorque(new Vector3(0, 0, - rigidBody.angularVelocity.z * rotateFriction));
@@ -177,14 +183,33 @@ public class Coyote : MonoBehaviour
         }
     }
 	
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.tag == "boulder")
+		{
+			var rigidBody = other.transform.parent.gameObject.GetComponent<Rigidbody>();
+			rigidBody.useGravity = true;
+		}
+	}
+	
 	void OnCollisionExit(Collision collision) 
 	{
+		if (collision.gameObject.tag == "level_nonground")
+		{
+			return;
+		}
+		
 		isOnFloor = false;
 		desiredDirection = new Vector3(1, 0, 0);
 	}
 	
 	void OnCollisionStay(Collision collision) 
 	{
+		if (collision.gameObject.tag == "level_nonground")
+		{
+			return;
+		}
+		
 		isOnFloor = true;
 		var count = 0;
 		var avgNormal = new Vector3();
@@ -205,6 +230,8 @@ public class Coyote : MonoBehaviour
 	
 	void TurnRight()
 	{
+		GetComponent<CapsuleCollider>().center = new Vector3(-colliderOffsetStart.x, colliderOffsetStart.y, colliderOffsetStart.z);
+		
 		lookingRight = true;
 		state = State.Turning;
 		
@@ -234,6 +261,8 @@ public class Coyote : MonoBehaviour
 	
 	void TurnLeft()
 	{
+		GetComponent<CapsuleCollider>().center = colliderOffsetStart;
+		
 		lookingRight = false;
 		state = State.Turning;
 		
