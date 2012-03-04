@@ -86,5 +86,15 @@ public class Kid : MonoBehaviour
 	public void TakeDamage(float damage)
 	{
 		health -= damage;
+		
+		if (health <= 0)
+		{
+			var guiObj = GameObject.Find("Gui");
+			
+			if (guiObj)
+			{
+				guiObj.GetComponent<GuiHandler>().EnablePopup(GuiHandler.Popups.Death);
+			}
+		}
 	}
 }

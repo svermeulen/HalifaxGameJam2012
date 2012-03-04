@@ -6,12 +6,16 @@ public class Enemy : MonoBehaviour
 {
     public float moveSpeed = 0.1f;
     public float targetDistance = 0.1f;
+	public float flipThreshold = 1;
+	public float damageAmount = 0;
+	public float hurtDistance = 0;
 
     private AnimationHandler animHandler;
 	private Kid kid;
 	
-	public float velocityDampening = 0.95f;
 	public float maxSpeed;
+		
+	bool facingRight = false;
 
     enum State
     {
@@ -20,7 +24,6 @@ public class Enemy : MonoBehaviour
     }
 	
 	State state;
-	Vector3 velocity;
 	
 	// Use this for initialization
 	void Start ()
@@ -52,27 +55,9 @@ public class Enemy : MonoBehaviour
 	
 	void CommonUpdate()
 	{
-        //transform.position += velocity * Time.deltaTime;
 	}
 	
-	void MovableCommon()
-	{
-		var deltaTarget = kid.transform.position - transform.position;
-		var distance = deltaTarget.magnitude;
-		
-		var direction = deltaTarget / distance;
-
-		velocity += direction * moveSpeed * Time.deltaTime;
-		
-		var speed = velocity.magnitude;
-		
-		if (speed > maxSpeed)
-		{
-			velocity = maxSpeed * velocity / speed;
-		}
-	}
-	
-	void Moving()
+	float MovableCommon()
 	{
 		var deltaTarget = kid.transform.position - transform.position;
 		var distance = deltaTarget.magnitude;
@@ -80,43 +65,66 @@ public class Enemy : MonoBehaviour
 		var direction = deltaTarget / distance;
 		
 		var rigidBody = GetComponent<Rigidbody>();
+		rigidBody.AddForce(direction * moveSpeed);
 		
-		//rigidBody.AddForce(direction * moveSpeed);
+		return distance;
+	}
+	
+	void Moving()
+	{		
+		var rigidBody = GetComponent<Rigidbody>();
 		
-		velocity += direction * moveSpeed * Time.deltaTime;
-		
-		var speed = velocity.magnitude;
-		
-		if (speed > maxSpeed)
+		if (facingRight)
 		{
-			velocity = maxSpeed * velocity / speed;
-		}
-		
-		if (deltaTarget.x < 0)
-		{
-			animHandler.ChangeAnim("MoveLeft");
+			if (rigidBody.velocity.x < -flipThreshold)
+			{
+				facingRight = false;
+			}
 		}
 		else
 		{
-			animHandler.ChangeAnim("MoveRight");
+			if (rigidBody.velocity.x > flipThreshold)
+			{
+				facingRight = true;
+			}
 		}
 		
-		/*
+		if (facingRight)
+		{
+			animHandler.ChangeAnim("MoveRight");
+		}
+		else
+		{
+			animHandler.ChangeAnim("MoveLeft");
+		}
+		
+		float distance = MovableCommon();
+		
 		if (distance <= targetDistance)
 		{
-			velocity *= velocityDampening;
 			state = State.Attacking;
 			
-			animHandler.ChangeAnim( velocity.x > 0 ? "AttackRight" : "AttackLeft", delegate()
+			animHandler.ChangeAnim( facingRight ? "AttackRight" : "AttackLeft", delegate()
 	        {
-				state = State.Moving;
+				FinishedAttack();
 	        });
-		}*/
+		}
     }
+	
+	void FinishedAttack()
+	{
+		float distance = (kid.transform.position - transform.position).magnitude;
+		
+		if (distance < hurtDistance)
+		{
+			kid.TakeDamage(damageAmount);
+		}
+		
+		state = State.Moving;
+	}
 	
 	void Attacking()
 	{
-		//MovableCommon();
-		//velocity *= velocityDampening;
+		MovableCommon();
     }
 }
