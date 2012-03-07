@@ -4,6 +4,7 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour
 {
+	public GameObject deathSmoke;
     public float moveSpeed = 0.1f;
     public float targetDistance = 0.1f;
 	public float flipThreshold = 1;
@@ -157,6 +158,7 @@ public class Enemy : MonoBehaviour
 	
 	public void Die()
 	{
+		Instantiate(deathSmoke, transform.position, Quaternion.identity);
 		Destroy(gameObject);
 	}
 	

@@ -8,17 +8,19 @@ public class GuiHandler : MonoBehaviour
 		Death,
 		None
 	}
-	
+
+    public float timeScale = 1;
 	Popups currentPopup = Popups.None;
 	
 	// Use this for initialization
-	void Start () {
-	
+	void Start ()
+	{
+        Time.timeScale = timeScale;
 	}
 	
 	public void EnablePopup(Popups popup)
 	{
-		Time.timeScale = 0;
+		//Time.timeScale = 0;
 		currentPopup = popup;
 	}
 	

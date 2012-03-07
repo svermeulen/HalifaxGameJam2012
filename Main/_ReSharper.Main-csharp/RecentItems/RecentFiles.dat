@@ -4,7 +4,9 @@
     <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Libraries/d:SpriteManager/f:SpriteManager.cs" caret="34901" fromTop="19" />
     <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Libraries/d:SpriteManager/f:Sprite.cs" caret="9883" fromTop="6" />
     <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:AnimationHandler.cs" caret="1625" fromTop="14" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="1228" fromTop="10" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="2646" fromTop="21" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:GuiHandler.cs" caret="203" fromTop="13" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Kid.cs" caret="1394" fromTop="2" />
   </RecentFiles>
   <RecentEdits>
     <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="593" fromTop="22" />
@@ -30,5 +32,11 @@
     <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="1192" fromTop="21" />
     <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="1192" fromTop="21" />
     <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="1162" fromTop="22" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="2596" fromTop="18" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:GuiHandler.cs" caret="360" fromTop="22" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:GuiHandler.cs" caret="164" fromTop="11" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:GuiHandler.cs" caret="290" fromTop="17" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Kid.cs" caret="2179" fromTop="15" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Kid.cs" caret="1916" fromTop="21" />
   </RecentEdits>
 </RecentFiles>

@@ -7,9 +7,12 @@ public class Kid : MonoBehaviour
     public float moveSpeed = 0.1f;
     public float targetDistance = 0.1f;
 	public Vector3 deathOffset;
-
+	public Darkness darkness;
+	
     private AnimationHandler animHandler;
 	private Coyote coyote;
+	
+	public float movementDampening = 0;
 	
 	float health = 100;
 	
@@ -79,6 +82,8 @@ public class Kid : MonoBehaviour
 			animHandler.ChangeAnim("Move");
 			return;
 		}
+		
+		rigidbody.velocity = new Vector3(rigidbody.velocity.x * movementDampening, rigidbody.velocity.y, 0);
 	}
 	
 	void Moving()
@@ -95,8 +100,8 @@ public class Kid : MonoBehaviour
 			animHandler.ChangeAnim("Idle");
 			return;
 		}
-
-		transform.position += new Vector3(-1, 0, 0) * moveSpeed;
+		
+		rigidbody.velocity = new Vector3(-moveSpeed, rigidbody.velocity.y, 0);
     }
 	
 	public void TakeDamage(float damage)
@@ -121,7 +126,11 @@ public class Kid : MonoBehaviour
 								
 				animHandler.ChangeAnim("DieLeft", delegate()
 		        {
-					guiObj.GetComponent<GuiHandler>().EnablePopup(GuiHandler.Popups.Death);
+					var camera = GameObject.FindGameObjectWithTag("MainCamera");
+					camera.GetComponent<CameraController>().enabled = false;
+					
+					darkness.ContinueGoing();
+					//guiObj.GetComponent<GuiHandler>().EnablePopup(GuiHandler.Popups.Death);
 		        });
 			}
 		}

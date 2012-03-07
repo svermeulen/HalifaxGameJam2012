@@ -115,7 +115,7 @@ public class Coyote : MonoBehaviour
 		
 		if (Input.GetButton ("Jump")) 
 		{
-			if (state != State.Jumping)
+            if (isOnFloor && state != State.Jumping)
 			{
 				StartJump();
 			}

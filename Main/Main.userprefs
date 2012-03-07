@@ -1,13 +1,16 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\dolphin_face\Scripts\CameraController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Kid.cs">
     <Files>
-      <File FileName="Assets\Scripts\Kid.cs" Line="123" Column="12" />
+      <File FileName="Assets\Scripts\AnimationHandler.cs" Line="24" Column="2" />
+      <File FileName="Assets\Scripts\Kid.cs" Line="34" Column="27" />
       <File FileName="Assets\Scripts\Coyote.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GuiHandler.cs" Line="30" Column="20" />
-      <File FileName="Assets\Scripts\Enemy.cs" Line="23" Column="27" />
-      <File FileName="Assets\dolphin_face\Scripts\HUDScript.cs" Line="38" Column="52" />
-      <File FileName="Assets\dolphin_face\Scripts\CameraController.cs" Line="18" Column="4" />
+      <File FileName="Assets\Scripts\GuiHandler.cs" Line="34" Column="32" />
+      <File FileName="Assets\Scripts\Enemy.cs" Line="43" Column="3" />
+      <File FileName="Assets\dolphin_face\Scripts\HUDScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\dolphin_face\Scripts\CameraController.cs" Line="15" Column="35" />
+      <File FileName="Assets\Scripts\BigBadGuy.cs" Line="28" Column="42" />
+      <File FileName="Assets\Scripts\Darkness.cs" Line="51" Column="131" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
