@@ -115,7 +115,6 @@ public class Kid : MonoBehaviour
 		
 		if (health <= 0)
 		{
-			return;
 			var guiObj = GameObject.Find("Gui");
 			
 			if (guiObj)
