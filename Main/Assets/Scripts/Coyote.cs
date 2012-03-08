@@ -41,6 +41,7 @@ public class Coyote : MonoBehaviour
 	Vector3 velocity;
 	bool isOnFloor = false;
 	public Vector3 desiredDirection = new Vector3(1, 0, 0);
+	int groundCollisionCount = 0;
 	
 	// Use this for initialization
 	void Start ()
@@ -52,11 +53,6 @@ public class Coyote : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-		if (isOnFloor)
-		{
-			Debug.DrawLine(transform.position, transform.position + desiredDirection * 1);
-		}
-		
 		CommonUpdate();
 
 	    switch (state)
@@ -148,8 +144,8 @@ public class Coyote : MonoBehaviour
 	
 	void CommonUpdate()
 	{
-		Debug.DrawLine(transform.position, transform.position + desiredDirection * 1);
-		Debug.DrawLine(GetBitePosition(), GetBitePosition() + Vector3.up * 1);
+		Debug.DrawLine(transform.position, transform.position + desiredDirection * 1, Color.green);
+		//Debug.DrawLine(GetBitePosition(), GetBitePosition() + Vector3.up * 1);
 		
 		var rigidBody = GetComponent<Rigidbody>();
 		rigidbody.velocity = new Vector3(velocity.x, rigidBody.velocity.y, 0);
@@ -248,14 +244,14 @@ public class Coyote : MonoBehaviour
 	
 	void OnCollisionExit(Collision collision) 
 	{
-		/*
 		if (collision.gameObject.tag != "ground")
 		{
-			return;
+		//	return;
 		}
-		*/
 		
-		isOnFloor = false;
+		groundCollisionCount -= 1;
+		
+		isOnFloor = (groundCollisionCount > 0);
 		
 		if (lookingRight)
 			desiredDirection = new Vector3(1, 0, 0);
@@ -263,26 +259,38 @@ public class Coyote : MonoBehaviour
 			desiredDirection = new Vector3(-1, 0, 0);
 	}
 	
-	void OnCollisionStay(Collision collision) 
+	void OnCollisionEnter(Collision collision) 
 	{
-		/*
 		if (collision.gameObject.tag != "ground")
 		{
-			return;
+		//	return;
 		}
-		*/
+		
+		groundCollisionCount += 1;
+	}
+	
+	void OnCollisionStay(Collision collision) 
+	{
+		if (collision.gameObject.tag != "ground")
+		{
+		//	return;
+		}
+		
 		isOnFloor = true;
 		var count = 0;
 		var avgNormal = new Vector3();
 		
 		foreach (ContactPoint contact in collision.contacts) 
 		{
+			if (contact.normal.y < 0)
+				continue;
+			
 			avgNormal += contact.normal;
 			count += 1;
             //print(contact.thisCollider.name + " hit " + contact.otherCollider.name);
-            //Debug.DrawRay(contact.point, contact.normal * 5, Color.white);
+            Debug.DrawRay(contact.point, contact.normal * 2, Color.red);
     	}
-		
+				
 		avgNormal /= count;
 		avgNormal.Normalize();
 		

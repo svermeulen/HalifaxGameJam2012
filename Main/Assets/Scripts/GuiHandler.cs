@@ -15,13 +15,17 @@ public class GuiHandler : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-        Time.timeScale = timeScale;
 	}
 	
 	public void EnablePopup(Popups popup)
 	{
 		//Time.timeScale = 0;
 		currentPopup = popup;
+	}
+	
+	void Update()
+	{
+        Time.timeScale = timeScale;
 	}
 	
 	// Update is called once per frame
