@@ -9,7 +9,13 @@ public class Coyote : MonoBehaviour
 	public float torqueSpring = 0.1f;
 	public float rotateFriction;
 	public float rotateSpring;
+	public float rotateFrictionGround;
+	public float rotateSpringGround;
 	public float jumpForce;
+	public float turningMoveSpeed;
+	public float maxAngleVariation = 60;
+	public float gravityForce;
+	public GameObject dustBurst;
 	
 	public float biteRadius = 0;
 	public Vector3 biteOffset;
@@ -36,13 +42,9 @@ public class Coyote : MonoBehaviour
 	bool isOnFloor = false;
 	public Vector3 desiredDirection = new Vector3(1, 0, 0);
 	
-	Vector3 colliderOffsetStart;
-
 	// Use this for initialization
 	void Start ()
-	{
-		colliderOffsetStart = GetComponent<CapsuleCollider>().center;
-				
+	{				
 	    state = State.Idle;
 	    animHandler = GetComponent<AnimationHandler>();
 	}
@@ -84,34 +86,81 @@ public class Coyote : MonoBehaviour
 	    }
     }
 	
+	void LimitAngles()
+	{
+		var rigidBody = GetComponent<Rigidbody>();
+		
+		var angles = rigidBody.rotation.eulerAngles;
+		
+		var theta = angles.z;
+		
+		if (theta > 180)
+			theta = theta - 360;
+		
+		theta = Mathf.Clamp(theta, -maxAngleVariation, maxAngleVariation);
+		
+		rigidBody.rotation = Quaternion.AngleAxis(theta, Vector3.forward);
+	}
+	
+	void FaceForward()
+	{
+		var rigidBody = GetComponent<Rigidbody>();
+		
+		Vector3 desDir;
+		if (lookingRight)
+		{
+			desDir = desiredDirection;
+		}
+		else
+		{
+			desDir = -desiredDirection;
+		}
+		
+		float rotFriction, rotSpring;
+		
+		if (isOnFloor)
+		{
+			rotFriction = rotateFrictionGround;
+			rotSpring = rotateSpringGround;
+		}
+		else
+		{
+			rotFriction = rotateFriction;
+			rotSpring = rotateSpring;
+		}
+		
+		var desired = Mathf.Rad2Deg * Mathf.Atan2(desDir.y, desDir.x);
+		
+		rigidBody.AddTorque(new Vector3(0, 0, - rigidBody.angularVelocity.z * rotFriction));
+		
+		var angles = rigidBody.rotation.eulerAngles;
+		
+		var theta = angles.z;
+		
+		if (theta > 180)
+			theta = theta - 360;
+		
+		var diff = desired - theta;
+		
+		Debug.Log(diff);
+		rigidBody.AddTorque(new Vector3(0, 0, diff) * rotSpring);
+	}
+	
 	void CommonUpdate()
 	{
 		Debug.DrawLine(transform.position, transform.position + desiredDirection * 1);
 		Debug.DrawLine(GetBitePosition(), GetBitePosition() + Vector3.up * 1);
 		
-        //transform.position += velocity * Time.deltaTime;
-		
 		var rigidBody = GetComponent<Rigidbody>();
+		rigidbody.velocity = new Vector3(velocity.x, rigidBody.velocity.y, 0);
+		LimitAngles();
 		
-		rigidBody.velocity = new Vector3(velocity.x, rigidBody.velocity.y, rigidBody.velocity.z);
-				
-		// Add friction to rotation
-		rigidBody.AddTorque(new Vector3(0, 0, - rigidBody.angularVelocity.z * rotateFriction));
-		
-		var desired = Mathf.Rad2Deg * Mathf.Atan2(desiredDirection.y, desiredDirection.x);
-		
-		var angles = rigidBody.rotation.eulerAngles;
-		
-		var current = angles.z;
-		
-		var diff = desired - current;
-		
-		if (Mathf.Abs(diff) > 180)
+		velocity += Vector3.down * gravityForce * Time.deltaTime;
+						
+		if (!isOnFloor)
 		{
-			diff = desired + (360 - current);
+			FaceForward();
 		}
-		
-		rigidBody.AddTorque(new Vector3(0, 0, diff) * rotateSpring);
 		
 		if (Input.GetButton ("Jump")) 
 		{
@@ -133,7 +182,7 @@ public class Coyote : MonoBehaviour
     void Idle()
     {
         var accel = Input.GetAxis("Horizontal");
-		velocity *= velocityDampening;
+		velocity.x *= velocityDampening;
 		
 		if (lookingRight)
 		{
@@ -155,27 +204,32 @@ public class Coyote : MonoBehaviour
 		MovableCommon();
 		
         var accel = Input.GetAxis("Horizontal");
-		velocity += new Vector3(accel, 0, 0) * moveSpeed * Time.deltaTime;
 		
 		if (accel < -MOVE_THRESHOLD)
 		{
-			if (lookingRight)
+			if (isOnFloor)
 			{
-				TurnLeft();
-				return;
+				if (lookingRight)
+				{
+					TurnLeft();
+					return;
+				}
+				
+				animHandler.ChangeAnim("MoveLeft");
 			}
-			
-			animHandler.ChangeAnim("MoveLeft");
 		}
 		else if (accel > MOVE_THRESHOLD)
 		{
-			if (!lookingRight)
+			if (isOnFloor)
 			{
-				TurnRight();
-				return;
+				if (!lookingRight)
+				{
+					TurnRight();
+					return;
+				}
+				
+				animHandler.ChangeAnim("MoveRight");
 			}
-			
-			animHandler.ChangeAnim("MoveRight");
 		}
 		else
 		{
@@ -194,22 +248,29 @@ public class Coyote : MonoBehaviour
 	
 	void OnCollisionExit(Collision collision) 
 	{
-		if (collision.gameObject.tag == "level_nonground")
+		/*
+		if (collision.gameObject.tag != "ground")
 		{
 			return;
 		}
+		*/
 		
 		isOnFloor = false;
-		desiredDirection = new Vector3(1, 0, 0);
+		
+		if (lookingRight)
+			desiredDirection = new Vector3(1, 0, 0);
+		else
+			desiredDirection = new Vector3(-1, 0, 0);
 	}
 	
 	void OnCollisionStay(Collision collision) 
 	{
-		if (collision.gameObject.tag == "level_nonground")
+		/*
+		if (collision.gameObject.tag != "ground")
 		{
 			return;
 		}
-		
+		*/
 		isOnFloor = true;
 		var count = 0;
 		var avgNormal = new Vector3();
@@ -226,12 +287,13 @@ public class Coyote : MonoBehaviour
 		avgNormal.Normalize();
 		
 		desiredDirection = new Vector3(avgNormal.y, -avgNormal.x, avgNormal.z);
+		
+		if (!lookingRight)
+			desiredDirection = -desiredDirection;
     }
 	
 	void TurnRight()
 	{
-		GetComponent<CapsuleCollider>().center = new Vector3(-colliderOffsetStart.x, colliderOffsetStart.y, colliderOffsetStart.z);
-		
 		lookingRight = true;
 		state = State.Turning;
 		
@@ -246,7 +308,8 @@ public class Coyote : MonoBehaviour
 		state = State.Jumping;
 		
 		var rigidBody = GetComponent<Rigidbody>();
-		rigidBody.AddForce( new Vector3(0, jumpForce, 0) );
+		rigidbody.velocity = new Vector3(velocity.x, jumpForce, 0);
+		//rigidBody.AddForce( new Vector3(0, jumpForce, 0) );
 		
 		animHandler.ChangeAnim(lookingRight ? "JumpRight" : "JumpLeft", delegate()
         {
@@ -261,8 +324,6 @@ public class Coyote : MonoBehaviour
 	
 	void TurnLeft()
 	{
-		GetComponent<CapsuleCollider>().center = colliderOffsetStart;
-		
 		lookingRight = false;
 		state = State.Turning;
 		
@@ -274,11 +335,17 @@ public class Coyote : MonoBehaviour
 	
 	void MovableCommon()
 	{
-        var accel = Input.GetAxis("Horizontal");
+		if (state == State.Jumping)
+		{
+			velocity += Vector3.right * Input.GetAxis("Horizontal") * jumpMoveSpeed * Time.deltaTime;
+		}
+		else
+		{
+			var accelSpeed = (state == State.Turning ? turningMoveSpeed : moveSpeed);
+					
+			velocity += desiredDirection * accelSpeed * Time.deltaTime;
+		}
 		
-		var accelSpeed = (state == State.Jumping) ? jumpMoveSpeed : moveSpeed;
-		
-		velocity += new Vector3(accel, 0, 0) * accelSpeed * Time.deltaTime;
 		var speed = velocity.magnitude;
 
 		if (speed > maxSpeed)
@@ -329,7 +396,7 @@ public class Coyote : MonoBehaviour
 
     void Attacking()
     {
-		velocity *= velocityDampening;
+		velocity.x *= velocityDampening;
 	}
 
     void Turning()
