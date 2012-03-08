@@ -129,8 +129,8 @@ public class Kid : MonoBehaviour
 					var camera = GameObject.FindGameObjectWithTag("MainCamera");
 					camera.GetComponent<CameraController>().enabled = false;
 					
-					darkness.ContinueGoing();
-					//guiObj.GetComponent<GuiHandler>().EnablePopup(GuiHandler.Popups.Death);
+					//darkness.ContinueGoing();
+					guiObj.GetComponent<GuiHandler>().EnablePopup(GuiHandler.Popups.Death);
 		        });
 			}
 		}
