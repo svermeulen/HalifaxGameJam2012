@@ -4,6 +4,7 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour
 {
+	public AudioClip deathSound;
 	public GameObject deathSmoke;
     public float moveSpeed = 0.1f;
     public float targetDistance = 0.1f;
@@ -158,6 +159,7 @@ public class Enemy : MonoBehaviour
 	
 	public void Die()
 	{
+		camera.GetComponent<AudioSource>().PlayOneShot(deathSound);	
 		Instantiate(deathSmoke, transform.position, Quaternion.identity);
 		Destroy(gameObject);
 	}

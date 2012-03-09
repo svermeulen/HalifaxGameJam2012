@@ -4,6 +4,7 @@ using System.Collections;
 
 public class Coyote : MonoBehaviour
 {
+	public AudioClip biteSound;
     public float moveSpeed = 0.1f;
 	public float jumpMoveSpeed = 0.1f;
 	public float torqueSpring = 0.1f;
@@ -15,6 +16,9 @@ public class Coyote : MonoBehaviour
 	public float turningMoveSpeed;
 	public float maxAngleVariation = 60;
 	public float gravityForce;
+	public float minMoveX;
+	public float maxMoveX;
+	public float offsetCameraLeft;
 	public GameObject dustBurst;
 	
 	public float biteRadius = 0;
@@ -35,7 +39,8 @@ public class Coyote : MonoBehaviour
 		Attacking, 
 		Jumping
     }
-
+	
+	GameObject camera;
     private State state;
 	bool lookingRight = true;
 	Vector3 velocity;
@@ -47,6 +52,7 @@ public class Coyote : MonoBehaviour
 	void Start ()
 	{				
 	    state = State.Idle;
+		camera = GameObject.FindGameObjectWithTag("MainCamera");
 	    animHandler = GetComponent<AnimationHandler>();
 	}
 	
@@ -142,8 +148,17 @@ public class Coyote : MonoBehaviour
 		rigidBody.AddTorque(new Vector3(0, 0, diff) * rotSpring);
 	}
 	
+	float GetCameraLeftX()
+	{
+		Plane[] planes = GeometryUtility.CalculateFrustumPlanes(camera.GetComponent<Camera>());
+		var rightPlanePos = -planes[0].normal * planes[0].distance;
+		return rightPlanePos.x - offsetCameraLeft;
+	}
+	
 	void CommonUpdate()
 	{
+		transform.position = new Vector3( Mathf.Min(maxMoveX, Mathf.Max( GetCameraLeftX(), Mathf.Max(minMoveX, transform.position.x))), transform.position.y, transform.position.z);
+		
 		Debug.DrawLine(transform.position, transform.position + desiredDirection * 1, Color.green);
 		//Debug.DrawLine(GetBitePosition(), GetBitePosition() + Vector3.up * 1);
 		
@@ -244,9 +259,9 @@ public class Coyote : MonoBehaviour
 	
 	void OnCollisionExit(Collision collision) 
 	{
-		if (collision.gameObject.tag != "ground")
+		if (collision.gameObject.tag == "nonground")
 		{
-		//	return;
+			//return;
 		}
 		
 		groundCollisionCount -= 1;
@@ -261,9 +276,9 @@ public class Coyote : MonoBehaviour
 	
 	void OnCollisionEnter(Collision collision) 
 	{
-		if (collision.gameObject.tag != "ground")
+		if (collision.gameObject.tag == "nonground")
 		{
-		//	return;
+			//return;
 		}
 		
 		groundCollisionCount += 1;
@@ -271,9 +286,9 @@ public class Coyote : MonoBehaviour
 	
 	void OnCollisionStay(Collision collision) 
 	{
-		if (collision.gameObject.tag != "ground")
+		if (collision.gameObject.tag == "nonground")
 		{
-		//	return;
+			//return;
 		}
 		
 		isOnFloor = true;
@@ -364,6 +379,7 @@ public class Coyote : MonoBehaviour
 	
 	void StartAttack()
 	{
+		camera.GetComponent<AudioSource>().PlayOneShot(biteSound);
 		state = State.Attacking;
 		
 		animHandler.ChangeAnim(lookingRight ? "AttackRight" : "AttackLeft", delegate()
