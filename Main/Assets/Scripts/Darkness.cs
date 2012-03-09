@@ -6,6 +6,7 @@ public class Darkness : MonoBehaviour
 	public Camera camera;
 	public float offsetX;
 	
+	public float beginSpeed;
 	public float offsetStartX;
 	
 	float lastX = 0;
@@ -15,7 +16,7 @@ public class Darkness : MonoBehaviour
 	
 	enum State
 	{
-		Init,
+		WaitingForInput,
 		Beginning,
 		Middle,
 		End
@@ -25,7 +26,7 @@ public class Darkness : MonoBehaviour
 	
 	void Start () 
 	{
-		state = State.Init;
+		state = State.WaitingForInput;
 	}
 	
 	float GetCameraRightX()
@@ -40,15 +41,19 @@ public class Darkness : MonoBehaviour
 	{
 		switch (state)
 		{
-			case State.Init:
+			case State.WaitingForInput:
 			{
-				transform.position = new Vector3(GetCameraRightX() + offsetStartX, transform.position.y, transform.position.z);
-				state = State.Beginning;
+				if (Input.GetKey(KeyCode.Return))
+				{
+					transform.position = new Vector3(GetCameraRightX() + offsetStartX, transform.position.y, transform.position.z);
+					state = State.Beginning;
+				}
+			
 				break;
 			}
 			case State.Beginning:
 			{
-				transform.position = transform.position + Vector3.right * camera.GetComponent<CameraController>().cameraSpeed * Time.deltaTime;
+				transform.position = transform.position + Vector3.right * beginSpeed * Time.deltaTime;
 			
 				if (transform.position.x < GetCameraRightX())
 				{
