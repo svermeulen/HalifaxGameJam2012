@@ -42,7 +42,7 @@ public class Coyote : MonoBehaviour
 	
 	GameObject camera;
     private State state;
-	bool lookingRight = true;
+	bool lookingRight = false;
 	Vector3 velocity;
 	bool isOnFloor = false;
 	public Vector3 desiredDirection = new Vector3(1, 0, 0);
