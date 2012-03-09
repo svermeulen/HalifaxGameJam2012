@@ -3,6 +3,7 @@ using System.Collections;
 
 public class BigBadGuy : MonoBehaviour 
 {
+	public AudioClip soundClip;
 	public float moveRangeX = 1;
 	public float moveRangeY = 1;
 	
@@ -14,16 +15,30 @@ public class BigBadGuy : MonoBehaviour
 	
 	float thetaX = 0;
 	float thetaY = 0;
+	GameObject camera;
 	
 	Vector3 startPos;
+	GameObject kid;
+	bool wasOnLeft = true;
 	
 	void Start()
 	{
+		camera = GameObject.FindGameObjectWithTag("MainCamera");
+		kid = GameObject.FindGameObjectWithTag("kid");
 		startPos = transform.position;
 	}
 	
 	void Update () 
 	{
+		bool isLeft = transform.position.x < kid.transform.position.x;
+		
+		if (isLeft != wasOnLeft)
+		{
+			camera.GetComponent<AudioSource>().PlayOneShot(soundClip);
+		}
+		
+		wasOnLeft = isLeft;
+		
 		float offsetX = Mathf.Sin(frequencyX * thetaX);
 		float offsetY = Mathf.Cos(frequencyY * thetaY);
 		
