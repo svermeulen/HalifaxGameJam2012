@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-public class Darkness : MonoBehaviour 
+public class Darkness : MonoBehaviour
 {
+    public GameObject[] menusToDisable;
 	public Camera camera;
 	public float offsetX;
 	
@@ -45,6 +46,16 @@ public class Darkness : MonoBehaviour
 			{
 				if (Input.GetKey(KeyCode.Return))
 				{
+				    foreach (var guy in GameObject.FindGameObjectsWithTag("big_guy"))
+				    {
+				        guy.GetComponent<BigBadGuy>().enabled = true;
+				    }
+
+                    foreach (var menuItem in menusToDisable)
+                    {
+                        menuItem.SetActiveRecursively(false);
+                    }
+
 					transform.position = new Vector3(GetCameraRightX() + offsetStartX, transform.position.y, transform.position.z);
 					state = State.Beginning;
 				}

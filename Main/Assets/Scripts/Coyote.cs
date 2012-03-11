@@ -153,12 +153,26 @@ public class Coyote : MonoBehaviour
 		Plane[] planes = GeometryUtility.CalculateFrustumPlanes(camera.GetComponent<Camera>());
 		var rightPlanePos = -planes[0].normal * planes[0].distance;
 		return rightPlanePos.x - offsetCameraLeft;
-	}
-	
-	void CommonUpdate()
+    }
+
+    float GetCameraRightX()
+    {
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(camera.GetComponent<Camera>());
+        var rightPlanePos = -planes[1].normal * planes[1].distance;
+        return rightPlanePos.x + offsetCameraLeft;
+    }
+
+    void ApplyPositionBoundary()
+    {
+        transform.position = new Vector3(Mathf.Min(maxMoveX, Mathf.Min(GetCameraRightX(), Mathf.Max(GetCameraLeftX(), Mathf.Max(minMoveX, transform.position.x)))), transform.position.y, transform.position.z);
+    }
+
+    void CommonUpdate()
 	{
-		transform.position = new Vector3( Mathf.Min(maxMoveX, Mathf.Max( GetCameraLeftX(), Mathf.Max(minMoveX, transform.position.x))), transform.position.y, transform.position.z);
-		
+        Debug.DrawLine(GetBitePosition(), GetBitePosition() + Vector3.up * biteRadius, Color.blue);
+
+        ApplyPositionBoundary();
+        
 		Debug.DrawLine(transform.position, transform.position + desiredDirection * 1, Color.green);
 		//Debug.DrawLine(GetBitePosition(), GetBitePosition() + Vector3.up * 1);
 		
@@ -379,7 +393,7 @@ public class Coyote : MonoBehaviour
 	
 	void StartAttack()
 	{
-		camera.GetComponent<AudioSource>().PlayOneShot(biteSound);
+		camera.GetComponent<AudioSource>().PlayOneShot(biteSound, 0.1f);
 		state = State.Attacking;
 		
 		animHandler.ChangeAnim(lookingRight ? "AttackRight" : "AttackLeft", delegate()
@@ -398,7 +412,7 @@ public class Coyote : MonoBehaviour
 		}
 		else
 		{
-			bitePosition -= biteOffset;	
+			bitePosition += new Vector3(-biteOffset.x, biteOffset.y, 0);	
 		}
 		
 		return bitePosition;
@@ -408,6 +422,11 @@ public class Coyote : MonoBehaviour
 	{
 		foreach ( var enemyObj in GameObject.FindGameObjectsWithTag("enemy") )
 		{
+		    var enemy = enemyObj.GetComponent<Enemy>();
+            if (!enemy.HasSpawned())
+            {
+                continue;
+            }
 			var distance = (enemyObj.transform.position - GetBitePosition()).magnitude;
 			
 			if (distance < biteRadius)

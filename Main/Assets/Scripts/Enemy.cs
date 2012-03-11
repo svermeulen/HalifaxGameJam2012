@@ -80,10 +80,22 @@ public class Enemy : MonoBehaviour
 	            throw new ArgumentOutOfRangeException();
 	    }
 	}
-	
-	void WaitingToSpawn()
+
+    public bool HasSpawned()
+    {
+        return state != State.WaitingToSpawn;
+    }
+
+    float GetCameraRightX()
+    {
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(camera.GetComponent<Camera>());
+        var rightPlanePos = -planes[1].normal * planes[1].distance;
+        return rightPlanePos.x;
+    }
+
+    void WaitingToSpawn()
 	{
-		if (transform.position.x - camera.transform.position.x > distanceRightStart)
+        if (transform.position.x > GetCameraRightX())
 		{
 			var renderer = GetComponentInChildren<MeshRenderer>();
 			renderer.enabled = true;
