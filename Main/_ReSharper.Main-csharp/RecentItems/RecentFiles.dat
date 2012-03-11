@@ -4,39 +4,43 @@
     <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Libraries/d:SpriteManager/f:SpriteManager.cs" caret="34901" fromTop="19" />
     <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Libraries/d:SpriteManager/f:Sprite.cs" caret="9883" fromTop="6" />
     <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:AnimationHandler.cs" caret="1625" fromTop="14" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="2646" fromTop="21" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:GuiHandler.cs" caret="203" fromTop="13" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Kid.cs" caret="1394" fromTop="2" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:dolphin_face/d:Scripts/f:CameraController.cs" caret="324" fromTop="13" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Darkness.cs" caret="442" fromTop="11" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="3266" fromTop="27" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Enemy.cs" caret="3215" fromTop="15" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Kid.cs" caret="4288" fromTop="36" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:GuiHandler.cs" caret="555" fromTop="27" />
   </RecentFiles>
   <RecentEdits>
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="593" fromTop="22" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="544" fromTop="22" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="1559" fromTop="19" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="1278" fromTop="13" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="488" fromTop="4" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="254" fromTop="12" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="593" fromTop="15" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="683" fromTop="19" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="877" fromTop="10" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="1469" fromTop="20" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="1819" fromTop="26" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="749" fromTop="18" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="421" fromTop="17" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="179" fromTop="8" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="1388" fromTop="14" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="1705" fromTop="13" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:AnimationHandler.cs" caret="1376" fromTop="4" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:AnimationHandler.cs" caret="1465" fromTop="9" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:AnimationHandler.cs" caret="1545" fromTop="11" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:AnimationHandler.cs" caret="1524" fromTop="11" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="1192" fromTop="21" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="1192" fromTop="21" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="1162" fromTop="22" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="2596" fromTop="18" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:GuiHandler.cs" caret="360" fromTop="22" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:GuiHandler.cs" caret="164" fromTop="11" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:GuiHandler.cs" caret="290" fromTop="17" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Kid.cs" caret="2179" fromTop="15" />
-    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Kid.cs" caret="1916" fromTop="21" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Enemy.cs" caret="866" fromTop="19" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Enemy.cs" caret="1824" fromTop="14" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Enemy.cs" caret="2154" fromTop="19" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Enemy.cs" caret="1955" fromTop="21" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Darkness.cs" caret="127" fromTop="5" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Darkness.cs" caret="1101" fromTop="22" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="3529" fromTop="32" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="8492" fromTop="28" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="3781" fromTop="19" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="3929" fromTop="25" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="8124" fromTop="18" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Kid.cs" caret="3772" fromTop="20" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Coyote.cs" caret="2954" fromTop="18" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Kid.cs" caret="4169" fromTop="18" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Kid.cs" caret="3709" fromTop="18" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Kid.cs" caret="3567" fromTop="15" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Kid.cs" caret="969" fromTop="15" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Kid.cs" caret="1204" fromTop="21" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Kid.cs" caret="1687" fromTop="20" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Kid.cs" caret="1787" fromTop="25" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Kid.cs" caret="440" fromTop="11" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Kid.cs" caret="4288" fromTop="36" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Kid.cs" caret="231" fromTop="9" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Kid.cs" caret="1411" fromTop="18" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Enemy.cs" caret="568" fromTop="21" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Enemy.cs" caret="3684" fromTop="58" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Enemy.cs" caret="2947" fromTop="20" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Enemy.cs" caret="157" fromTop="7" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:Enemy.cs" caret="3314" fromTop="26" />
+    <File id="DD8BB905-17D1-AAA6-C8A2-213488C298D6/d:Assets/d:Scripts/f:GuiHandler.cs" caret="611" fromTop="28" />
   </RecentEdits>
 </RecentFiles>

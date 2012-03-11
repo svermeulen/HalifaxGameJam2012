@@ -13,7 +13,7 @@ public class BigBadGuy : MonoBehaviour
 	public float frequencyX = 1;
 	public float frequencyY = 1;
 	
-	float thetaX = 0;
+	public float thetaX = 0;
 	float thetaY = 0;
 	GameObject camera;
 	
