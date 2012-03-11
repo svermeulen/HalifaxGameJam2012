@@ -4,11 +4,17 @@ using System.Collections;
 
 public class Kid : MonoBehaviour
 {
+    public Texture healthTexture;
+    public int healthBarWidth;
+    public int healthBarHeight;
+    public GUIStyle textStyle;
+
     public AudioClip deathSound;
 	public float moveSpeed = 0.1f;
     public float targetDistance = 0.1f;
 	public Vector3 deathOffset;
 	public Darkness darkness;
+    public float offsetSetDarknessX = 1;
 	
     private AnimationHandler animHandler;
 	private Coyote coyote;
@@ -35,16 +41,31 @@ public class Kid : MonoBehaviour
 		coyote = GameObject.FindWithTag("coyote").GetComponent<Coyote>();
 		
 		state = State.Moving;
-	}
+    }
+
+    float GetCameraLeftX()
+    {
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(camera.GetComponent<Camera>());
+        var rightPlanePos = -planes[0].normal * planes[0].distance;
+        return rightPlanePos.x;
+    }
 	
 	void OnGUI()
-	{		
-		GUI.Label( new Rect(10, 10, 100, 100), "Health: "+ health );
-	}
+	{
+        GUI.DrawTexture(new Rect(10, Screen.height - 30, healthBarWidth * (health/100.0f), healthBarHeight), healthTexture);
+        GUI.Label(new Rect(10, Screen.height - 60, 100, 20), "Health", textStyle);
+    }
+
+    float GetCameraRightX()
+    {
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(camera.GetComponent<Camera>());
+        var rightPlanePos = -planes[1].normal * planes[1].distance;
+        return rightPlanePos.x;
+    }
 	
 	void ApplyDarknessDamage()
 	{
-		if (transform.position.x - camera.transform.position.x > 7)
+        if (transform.position.x > GetCameraRightX() - offsetSetDarknessX)
 		{
 			TakeDamage( 1 );
 		}
@@ -124,12 +145,13 @@ public class Kid : MonoBehaviour
 				Destroy(GetComponent<Rigidbody>());
 				Destroy(GetComponent<Collider>());
 				transform.position -= deathOffset;
-								
+
+                var camera = GameObject.FindGameObjectWithTag("MainCamera");
+                camera.GetComponent<AudioSource>().PlayOneShot(deathSound);
+
 				animHandler.ChangeAnim("DieLeft", delegate()
 		        {
-					var camera = GameObject.FindGameObjectWithTag("MainCamera");
 					camera.GetComponent<CameraController>().enabled = false;
-					camera.GetComponent<AudioSource>().PlayOneShot(deathSound);
 					
 					//darkness.ContinueGoing();
 					guiObj.GetComponent<GuiHandler>().EnablePopup(GuiHandler.Popups.Death);
@@ -148,7 +170,7 @@ public class Kid : MonoBehaviour
 	
 	void OnCollisionEnter(Collision other)
 	{
-		Debug.Log(other.gameObject.name);
+		//Debug.Log(other.gameObject.name);
 		if (other.gameObject.name == "StalactPiece") {
 			TakeDamage (100);
 		}

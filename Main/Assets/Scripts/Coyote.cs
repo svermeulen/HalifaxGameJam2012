@@ -144,7 +144,7 @@ public class Coyote : MonoBehaviour
 		
 		var diff = desired - theta;
 		
-		Debug.Log(diff);
+		//Debug.Log(diff);
 		rigidBody.AddTorque(new Vector3(0, 0, diff) * rotSpring);
 	}
 	
