@@ -35,7 +35,7 @@ public class GuiHandler : MonoBehaviour
 		{
 			case Popups.Death:
 			{
-		        if (GUI.Button(new Rect(Screen.width/2, (Screen.height/2 + 180), 130, 60), "You died. Restart?"))
+		        if (GUI.Button(new Rect(Screen.width/2 - 100, (Screen.height/2 - 40), 130, 60), "You died. Restart?"))
 				{
 					Time.timeScale = 1;
 		            Application.LoadLevel(0);
