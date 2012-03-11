@@ -4,7 +4,8 @@ using System.Collections;
 
 public class Kid : MonoBehaviour
 {
-    public float moveSpeed = 0.1f;
+    public AudioClip deathSound;
+	public float moveSpeed = 0.1f;
     public float targetDistance = 0.1f;
 	public Vector3 deathOffset;
 	public Darkness darkness;
@@ -128,6 +129,7 @@ public class Kid : MonoBehaviour
 		        {
 					var camera = GameObject.FindGameObjectWithTag("MainCamera");
 					camera.GetComponent<CameraController>().enabled = false;
+					camera.GetComponent<AudioSource>().PlayOneShot(deathSound);
 					
 					//darkness.ContinueGoing();
 					guiObj.GetComponent<GuiHandler>().EnablePopup(GuiHandler.Popups.Death);
