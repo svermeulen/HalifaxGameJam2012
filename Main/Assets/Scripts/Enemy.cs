@@ -4,6 +4,9 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour
 {
+    public AudioClip moveSound;
+    public AudioClip biteSound;
+
 	public AudioClip deathSound;
 	public GameObject deathSmoke;
     public float moveSpeed = 0.1f;
@@ -16,6 +19,7 @@ public class Enemy : MonoBehaviour
 
     private AnimationHandler animHandler;
 	private Kid kid;
+    private bool hasPlayedMoveSound = false;
 	
 	public bool comeFromRight = true;
 	
@@ -133,6 +137,12 @@ public class Enemy : MonoBehaviour
 	
 	void Moving()
 	{		
+        if (!hasPlayedMoveSound)
+        {
+            camera.GetComponent<AudioSource>().PlayOneShot(moveSound);
+            hasPlayedMoveSound = true;
+        }
+
 		var rigidBody = GetComponent<Rigidbody>();
 		
 		if (facingRight)
@@ -149,7 +159,8 @@ public class Enemy : MonoBehaviour
 		if (distance <= targetDistance)
 		{
 			state = State.Attacking;
-			
+
+            camera.GetComponent<AudioSource>().PlayOneShot(biteSound, 0.1f);
 			animHandler.ChangeAnim( facingRight ? "AttackRight" : "AttackLeft", delegate()
 	        {
 				FinishedAttack();
