@@ -139,7 +139,7 @@ public class Enemy : MonoBehaviour
 	{		
         if (!hasPlayedMoveSound)
         {
-            camera.GetComponent<AudioSource>().PlayOneShot(moveSound);
+            camera.GetComponent<AudioSource>().PlayOneShot(moveSound, 0.3f);
             hasPlayedMoveSound = true;
         }
 
@@ -160,7 +160,7 @@ public class Enemy : MonoBehaviour
 		{
 			state = State.Attacking;
 
-            camera.GetComponent<AudioSource>().PlayOneShot(biteSound, 0.1f);
+            camera.GetComponent<AudioSource>().PlayOneShot(biteSound, 0.2f);
 			animHandler.ChangeAnim( facingRight ? "AttackRight" : "AttackLeft", delegate()
 	        {
 				FinishedAttack();
@@ -182,7 +182,7 @@ public class Enemy : MonoBehaviour
 	
 	public void Die()
 	{
-		camera.GetComponent<AudioSource>().PlayOneShot(deathSound);	
+		camera.GetComponent<AudioSource>().PlayOneShot(deathSound, 0.5f);	
 		Instantiate(deathSmoke, transform.position, Quaternion.identity);
 		Destroy(gameObject);
 	}
