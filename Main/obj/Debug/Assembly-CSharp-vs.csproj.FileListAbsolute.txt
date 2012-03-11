@@ -1,0 +1,9 @@
+C:\Projects\GameJam\Main\Temp\bin\Debug\Assembly-CSharp.dll
+C:\Projects\GameJam\Main\Temp\bin\Debug\Assembly-CSharp.pdb
+C:\Projects\GameJam\Main\Temp\bin\Debug\Assembly-UnityScript-firstpass.dll
+C:\Projects\GameJam\Main\Temp\bin\Debug\UnityEditor.dll
+C:\Projects\GameJam\Main\Temp\bin\Debug\UnityEngine.dll
+C:\Projects\GameJam\Main\Temp\bin\Debug\nunit.framework.dll
+C:\Projects\GameJam\Main\obj\Debug\ResolveAssemblyReference.cache
+C:\Projects\GameJam\Main\obj\Debug\Assembly-CSharp.dll
+C:\Projects\GameJam\Main\obj\Debug\Assembly-CSharp.pdb

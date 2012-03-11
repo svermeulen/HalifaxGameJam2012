@@ -53,7 +53,7 @@ public class Kid : MonoBehaviour
 	void OnGUI()
 	{
         GUI.DrawTexture(new Rect(10, Screen.height - 30, healthBarWidth * (health/100.0f), healthBarHeight), healthTexture);
-        GUI.Label(new Rect(10, Screen.height - 60, 100, 20), "Health", textStyle);
+        GUI.Label(new Rect(10, Screen.height - 55, 100, 20), "health", textStyle);
     }
 
     float GetCameraRightX()
